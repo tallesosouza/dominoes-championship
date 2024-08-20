@@ -6,11 +6,12 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import type { MenuInterface } from '@core/interfaces/menu';
 import { MENU_LIST } from '@core/const/menu-list';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
 	selector: 'app-sidebar-menu',
 	standalone: true,
-	imports: [NgClass, TooltipModule, SkeletonModule, RouterLink, RouterLinkActive],
+	imports: [NgClass, TooltipModule, SkeletonModule, RouterLink, RouterLinkActive, FooterComponent],
 	templateUrl: './sidebar-menu.component.html',
 	styleUrl: './sidebar-menu.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,

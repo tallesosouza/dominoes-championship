@@ -37,8 +37,8 @@
     padding: .875rem;
     height: 2.75rem;
 
-    &:hover{
-        background-color: rgba(0,0,0,0.1);
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
 
@@ -67,20 +67,20 @@
     padding: 2rem;
 }
 
-.header-sidebar-menu{
+.header-sidebar-menu {
     display: flex;
     align-items: center;
     color: #FFFFFF;
     justify-content: space-between;
 }
 
-.list-sidebar-menu{
+.list-sidebar-menu {
     display: flex;
     flex-direction: column;
     gap: .125rem;
 }
-  
-.list-sidebar-menu ul{
+
+.list-sidebar-menu ul {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -94,13 +94,11 @@
 }
 
 .actvated-menu {
-    background-color: var(--primary-color-text); 
+    background-color: var(--primary-color-text);
     color: var(--primary-color);
     transition: .3s;
-  
-    &:hover{
-      background-color: rgba(255,255,255,.8);
+
+    &:hover {
+        background-color: rgba(255, 255, 255, .8);
     }
 }
-
-
