@@ -6,6 +6,11 @@ export const PAGES_ROUTES: Routes = [
 	{
 		path: '',
 		component: PagesComponent,
-		children: [],
+		children: [
+			{
+				path: 'user',
+				loadChildren: () => import('./user/user.routes').then((m) => m.USER_ROUTES),
+			},
+		],
 	},
 ];
