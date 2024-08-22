@@ -1,0 +1,25 @@
+<div class="h-full flex flex-column gap-3">
+    @if (headerTemplate) {
+        <ng-container [ngTemplateOutlet]="headerTemplate" />
+    } @else {
+        @if (title() || viewClose()) {
+            <div class="flex flex-row justify-content-between align-items-center">
+                <span>{{ title() }}</span>
+                @if (viewClose()) {
+                    <button
+                        pButton
+                        icon="fa fa-xmark"
+                        [rounded]="true"
+                        [text]="true"
+                        severity="danger"
+                        (click)="onClickClose.emit()"
+                    ></button>
+                }
+            </div>
+        }
+    }
+    <div class="h-full max-h-full overflow-auto flex-column text-body">
+      <ng-content select="[body]"></ng-content>
+    </div>
+    <ng-content select="[footer]"></ng-content>
+</div>
