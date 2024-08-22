@@ -1,25 +1,26 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
-	computed,
 	DestroyRef,
-	inject,
 	type OnInit,
+	computed,
+	inject,
 	signal,
 } from '@angular/core';
-import type { UserInterface } from '@core/interfaces/user';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { TooltipModule } from 'primeng/tooltip';
-import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
-import { MainHeaderComponent } from '@shared/components/main-header/main-header.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import type { UserInterface } from '@core/interfaces/user';
+import { UserStorageService } from '@core/services/user-storage.service';
+import { MainHeaderComponent } from '@shared/components/main-header/main-header.component';
+import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
+import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, switchMap, take, takeUntil } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
+import { debounceTime, finalize, take, tap } from 'rxjs';
 
 @Component({
 	selector: 'app-user-list',
@@ -43,10 +44,11 @@ export class UserListComponent implements OnInit {
 	private router = inject(Router);
 	private route = inject(ActivatedRoute);
 	private destroy = inject(DestroyRef);
+	private userStorageService = inject(UserStorageService);
 
 	protected searchControl = new FormControl();
-
 	protected gridData = signal<UserInterface[]>([]);
+	protected loading = signal(true);
 
 	isGridData = computed(() => {
 		if (this.gridData().length) {
@@ -56,6 +58,7 @@ export class UserListComponent implements OnInit {
 	});
 
 	ngOnInit(): void {
+		this.getUserList();
 		this.searchControlObservable();
 	}
 
@@ -67,17 +70,26 @@ export class UserListComponent implements OnInit {
 
 	private searchControlObservable() {
 		this.searchControl.valueChanges
-			.pipe(debounceTime(300), takeUntilDestroyed(this.destroy))
+			.pipe(
+				tap(() => this.loading.set(true)),
+				debounceTime(300),
+				takeUntilDestroyed(this.destroy),
+			)
 			.subscribe((value) => {
-				const dto = this.gridData().filter((res) => this.filterUserLogic(res.name, value));
-				console.log(dto);
+				const dto = this.userStorageService.getByNameOrSurname(value);
+				this.gridData.update((_) => dto);
+				this.loading.set(false);
 			});
 	}
 
-	private filterUserLogic(resValue: string, controlValue: string) {
-		const resValueConvert = resValue.toLowerCase();
-		const controlValueConvert = controlValue.toLowerCase();
-
-		return resValueConvert.includes(controlValueConvert);
+	private getUserList() {
+		this.userStorageService
+			.get()
+			.pipe(
+				debounceTime(300),
+				finalize(() => this.loading.set(false)),
+				take(1),
+			)
+			.subscribe((res) => this.gridData.set(res));
 	}
 }

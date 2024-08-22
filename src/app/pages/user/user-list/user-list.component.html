@@ -22,13 +22,14 @@
             Adicionar<i class="fa fa-plus ml-3"></i>
         </button>
     </div>
-
+    
     <p-table
         [value]="gridData()"
         [tableStyle]="{ 'width': '100%' }"
         [paginator]="isGridData()"
         [rows]="10"
         [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading()"
     >
         <ng-template pTemplate="header">
             <tr>
