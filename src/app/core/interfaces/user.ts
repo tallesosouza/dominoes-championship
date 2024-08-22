@@ -1,5 +1,5 @@
 export interface UserInterface {
-	uuid: string;
+	uuid?: string;
 	name: string;
 	surname?: string;
 	image?: string;
