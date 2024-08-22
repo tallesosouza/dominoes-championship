@@ -30,6 +30,8 @@
         [rows]="10"
         [rowsPerPageOptions]="[10, 25, 50]"
         [loading]="loading()"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Página {first} de {last} ({totalRecords} itens)"
     >
         <ng-template pTemplate="header">
             <tr>
@@ -68,6 +70,7 @@
                             severity="danger"
                             pTooltip="Excluir"
                             tooltipPosition="bottom"
+                            (click)="userDelete(user.uuid)"
                         ></button>
                     </div>
                 </td>

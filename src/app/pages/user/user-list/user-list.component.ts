@@ -12,9 +12,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { UserInterface } from '@core/interfaces/user';
 import { UserStorageService } from '@core/services/user-storage.service';
+import { ConfirmeDialogComponent } from '@shared/components/dialog/confirme-dialog/confirme-dialog.component';
 import { MainHeaderComponent } from '@shared/components/main-header/main-header.component';
 import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
+import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
 import { ButtonModule } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
@@ -45,6 +48,7 @@ export class UserListComponent implements OnInit {
 	private route = inject(ActivatedRoute);
 	private destroy = inject(DestroyRef);
 	private userStorageService = inject(UserStorageService);
+	private dialogService = inject(DialogService);
 
 	protected searchControl = new FormControl();
 	protected gridData = signal<UserInterface[]>([]);
@@ -91,5 +95,23 @@ export class UserListComponent implements OnInit {
 				take(1),
 			)
 			.subscribe((res) => this.gridData.set(res));
+	}
+
+	protected userDelete(uuid: string) {
+		this.dialogService
+			.open(ConfirmeDialogComponent, {
+				data: {
+					title: 'Remover jogador',
+					description: 'Você tem certeza que deseja remover este jogador?',
+				},
+				...DIALOG_CONFIG,
+				...DIALOG_TEMPLATE.SMALL_AUTO,
+			})
+			.onClose.subscribe((res) => {
+				if (res) {
+					this.userStorageService.delete(uuid);
+					this.getUserList();
+				}
+			});
 	}
 }
