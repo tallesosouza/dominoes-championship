@@ -1,0 +1,12 @@
+<app-container-dialog
+  [title]="title()"
+  (onClickClose)="close(false)"
+>
+  <div body>
+    {{ description() }}
+  </div>
+  <div class="flex flex-row justify-content-end gap-3" footer>
+    <button pButton [text]="true" (click)="close(false)">Cancelar</button>
+    <button pButton severity="danger" (click)="close(true)">Confirmar</button>
+  </div>
+</app-container-dialog>
