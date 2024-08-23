@@ -29,14 +29,27 @@ export class UserStorageService {
 		return this.store$.asObservable();
 	}
 
+	public getByUuid(uuid: string) {
+		return this.store$.getValue().find((res) => res.uuid === uuid);
+	}
+
+	private setData(data: UserInterface[]) {
+		this.store$.next(data);
+		this.crudService.set(this.key, data);
+	}
+
 	public post(data: UserInterface) {
 		const dtoData: UserInterface = {
 			...data,
 			uuid: generateUUID(),
 		};
 		const dto = [...this.getValue(), dtoData];
-		this.store$.next(dto);
-		this.crudService.set(this.key, dto);
+		this.setData(dto);
+	}
+
+	public put(data: UserInterface) {
+		const dto = this.getValue().map((res) => (res.uuid === data.uuid ? data : res));
+		this.setData(dto);
 	}
 
 	public delete(uuid: string) {
