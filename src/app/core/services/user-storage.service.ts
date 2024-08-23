@@ -1,7 +1,8 @@
-import { inject, Injectable } from '@angular/core';
-import { CrudStorageService } from './crud-storage.service';
-import { BehaviorSubject, filter, map } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
 import type { UserInterface } from '@core/interfaces/user';
+import { generateUUID } from '@shared/utils/functions';
+import { BehaviorSubject } from 'rxjs';
+import { CrudStorageService } from './crud-storage.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,8 +29,12 @@ export class UserStorageService {
 		return this.store$.asObservable();
 	}
 
-	public set(value: UserInterface) {
-		const dto = [...this.getValue(), value];
+	public post(data: UserInterface) {
+		const dtoData: UserInterface = {
+			...data,
+			uuid: generateUUID(),
+		};
+		const dto = [...this.getValue(), dtoData];
 		this.store$.next(dto);
 		this.crudService.set(this.key, dto);
 	}
