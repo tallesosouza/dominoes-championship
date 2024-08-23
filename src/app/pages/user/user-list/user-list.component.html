@@ -45,7 +45,7 @@
             <tr>
                 <td>
                     <app-profile-image
-                        src=""
+                        [src]="user?.image.url"
                         [alt]="user.name"
                         size="medium"
                     />

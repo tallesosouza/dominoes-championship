@@ -10,12 +10,14 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import type { ToastInterface } from '@core/interfaces/toats';
 import type { UserInterface } from '@core/interfaces/user';
 import { UserStorageService } from '@core/services/user-storage.service';
 import { ConfirmeDialogComponent } from '@shared/components/dialog/confirme-dialog/confirme-dialog.component';
 import { MainHeaderComponent } from '@shared/components/main-header/main-header.component';
 import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
 import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -49,6 +51,7 @@ export class UserListComponent implements OnInit {
 	private destroy = inject(DestroyRef);
 	private userStorageService = inject(UserStorageService);
 	private dialogService = inject(DialogService);
+	private messageService = inject(MessageService);
 
 	protected searchControl = new FormControl();
 	protected gridData = signal<UserInterface[]>([]);
@@ -94,7 +97,9 @@ export class UserListComponent implements OnInit {
 				finalize(() => this.loading.set(false)),
 				take(1),
 			)
-			.subscribe((res) => this.gridData.set(res));
+			.subscribe((res) => {
+				this.gridData.set(res);
+			});
 	}
 
 	protected userDelete(uuid: string) {
@@ -111,7 +116,16 @@ export class UserListComponent implements OnInit {
 				if (res) {
 					this.userStorageService.delete(uuid);
 					this.getUserList();
+					this.showToast({
+						severity: 'success',
+						summary: 'Delete',
+						detail: 'Usuário deletado com sucesso',
+					});
 				}
 			});
+	}
+
+	public showToast(data: ToastInterface) {
+		this.messageService.add(data);
 	}
 }
