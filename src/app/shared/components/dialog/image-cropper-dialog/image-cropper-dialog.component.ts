@@ -21,9 +21,8 @@ export class ImageCropperDialogComponent {
 	protected croppedImage = signal<SafeUrl>('');
 
 	protected imageCropped(event: ImageCroppedEvent) {
-		if (event.objectUrl) {
-			const dto = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl);
-			this.croppedImage.set(dto);
+		if (event.base64) {
+			this.croppedImage.set(event.base64);
 		}
 	}
 

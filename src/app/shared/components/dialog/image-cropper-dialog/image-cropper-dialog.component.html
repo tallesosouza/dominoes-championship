@@ -7,6 +7,9 @@
         [maintainAspectRatio]="true"
         [aspectRatio]="1 / 1"
         format="png"
+        output="base64"
+        [resizeToWidth]="200"
+        [resizeToHeight]="200"
         (imageCropped)="imageCropped($event)"
     />
   </div>
