@@ -1,0 +1,17 @@
+<app-container-dialog
+  (onClickClose)="close()"
+>
+  <div body>
+    <image-cropper
+        [imageChangedEvent]="imageChangedEvent()"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+    />
+  </div>
+  <div class="flex flex-row justify-content-end gap-3" footer>
+    <button pButton severity="primary" text (click)="close()">Cancelar</button>
+    <button pButton severity="primary" (click)="confirm()">Confirmar</button>
+  </div>
+</app-container-dialog>
