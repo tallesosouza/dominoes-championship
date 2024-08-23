@@ -1,15 +1,19 @@
 <app-main-header title="Cadastro" />
 
 <div [formGroup]="model" class="content-page-list">
-    <app-profile-image size="xLarge" class="mb-3" [src]="controls.image.value" />
-
+    <app-profile-image size="xLarge" class="mb-3" [src]="imageSrc" />
     <app-input-file label="Upload" (onChangeInput)="showImageCropperDialog($event)" />
-
     <form class="flex flex-column gap-3" style="max-width: 500px;">
         <div class="w-full flex flex-column gap-3">
             <app-input-text formControlName="name" label="Nome" class="flex-1" />
             <app-input-text formControlName="surname" label="Sobrenome" class="flex-1" />
         </div>
-        <button pButton class="mt-3" label="Salvar" (click)="onSubmit()"></button>
+
+        <p-button 
+            label="Salvar" 
+            [loading]="loading()" 
+            (onClick)="onSubmit()"
+            styleClass="w-full"
+        />
     </form>
 </div>

@@ -1,6 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import type { Params } from '@angular/router';
+import {
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	inject,
+	signal,
+} from '@angular/core';
+import {
+	FormBuilder,
+	ReactiveFormsModule,
+	type UntypedFormGroup,
+	Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import type { FileInterface } from '@core/interfaces/file';
+import { UploadService } from '@core/services/upload.service';
+import { UserStorageService } from '@core/services/user-storage.service';
 import { ImageCropperDialogComponent } from '@shared/components/dialog/image-cropper-dialog/image-cropper-dialog.component';
 import { InputFileComponent } from '@shared/components/inputs/input-file/input-file.component';
 import { InputTextComponent } from '@shared/components/inputs/input-text/input-text.component';
@@ -11,6 +25,7 @@ import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
 import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { finalize, take } from 'rxjs';
 
 @Component({
 	selector: 'app-user-form',
@@ -31,8 +46,13 @@ export class UserFormComponent extends BaseFormDirective {
 	private build = inject(FormBuilder);
 	private dialogService = inject(DialogService);
 	private cd = inject(ChangeDetectorRef);
+	private uploadService = inject(UploadService);
+	private userStorageService = inject(UserStorageService);
+	private router = inject(Router);
 
-	override model = this.getModel();
+	protected loading = signal(false);
+
+	override model: UntypedFormGroup = this.getModel();
 
 	private getModel() {
 		return this.build.group({
@@ -43,16 +63,25 @@ export class UserFormComponent extends BaseFormDirective {
 		});
 	}
 
-	get controls() {
-		return this.model.controls;
+	get imageSrc() {
+		const dto = this.model.get('image')?.value;
+		if (dto.secure_url) {
+			return dto.secure_url;
+		}
+		return dto;
 	}
 
-	override submit(params?: Params): void {
-		// throw new Error('Method not implemented.');
+	override submit(): void {
+		this.loading.set(true);
+		const imageValue = this.model.get('image')?.value;
+		if (imageValue && !imageValue.public_id) {
+			this.uploadImage(imageValue);
+		} else {
+			this.postUserStorage();
+		}
 	}
 
 	protected showImageCropperDialog(file: Event) {
-		console.log(file);
 		this.dialogService
 			.open(ImageCropperDialogComponent, {
 				data: {
@@ -65,9 +94,48 @@ export class UserFormComponent extends BaseFormDirective {
 			})
 			.onClose.subscribe((res) => {
 				if (res) {
-					this.controls.image.patchValue(res);
+					this.model.get('image')?.patchValue(res);
 					this.cd.detectChanges();
 				}
 			});
+	}
+
+	private uploadImage(imageValue: string) {
+		this.uploadService
+			.upload(imageValue)
+			.pipe(
+				finalize(() => this.loading.set(false)),
+				take(1),
+			)
+			.subscribe({
+				next: (res) => {
+					const dto: FileInterface = {
+						url: res.secure_url,
+						id: res.public_id,
+					};
+					this.model.get('image')?.patchValue(dto);
+					this.postUserStorage();
+				},
+				error: () => {
+					this.showToast({
+						severity: 'error',
+						summary: 'Error',
+						detail: 'Erro ao cadastrar a imagem',
+					});
+				},
+			});
+	}
+
+	private postUserStorage() {
+		this.userStorageService.post(this.model.getRawValue());
+
+		this.showToast({
+			severity: 'success',
+			summary: 'Cadastro',
+			detail: 'Usuário cadastrado com sucesso',
+		});
+
+		this.router.navigate(['/user']);
+		this.loading.set(false);
 	}
 }
