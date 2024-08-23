@@ -2,7 +2,10 @@ import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
+	type OnInit,
+	computed,
 	inject,
+	input,
 	signal,
 } from '@angular/core';
 import {
@@ -42,7 +45,7 @@ import { finalize, take } from 'rxjs';
 	templateUrl: './user-form.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserFormComponent extends BaseFormDirective {
+export class UserFormComponent extends BaseFormDirective implements OnInit {
 	private build = inject(FormBuilder);
 	private dialogService = inject(DialogService);
 	private cd = inject(ChangeDetectorRef);
@@ -51,8 +54,13 @@ export class UserFormComponent extends BaseFormDirective {
 	private router = inject(Router);
 
 	protected loading = signal(false);
-
+	public uuid = input('');
+	protected titlePage = computed(() => (this.uuid() ? 'Editar' : 'Cadastro'));
 	override model: UntypedFormGroup = this.getModel();
+
+	ngOnInit(): void {
+		this.setModelData();
+	}
 
 	private getModel() {
 		return this.build.group({
@@ -63,10 +71,19 @@ export class UserFormComponent extends BaseFormDirective {
 		});
 	}
 
+	private setModelData() {
+		if (this.uuid()) {
+			const dto = this.userStorageService.getByUuid(this.uuid());
+			if (dto) {
+				this.model.patchValue(dto);
+			}
+		}
+	}
+
 	get imageSrc() {
 		const dto = this.model.get('image')?.value;
-		if (dto.secure_url) {
-			return dto.secure_url;
+		if (dto.url) {
+			return dto.url;
 		}
 		return dto;
 	}
@@ -74,10 +91,10 @@ export class UserFormComponent extends BaseFormDirective {
 	override submit(): void {
 		this.loading.set(true);
 		const imageValue = this.model.get('image')?.value;
-		if (imageValue && !imageValue.public_id) {
+		if (imageValue && !imageValue.public_id && !imageValue.id) {
 			this.uploadImage(imageValue);
 		} else {
-			this.postUserStorage();
+			this.save();
 		}
 	}
 
@@ -114,7 +131,7 @@ export class UserFormComponent extends BaseFormDirective {
 						id: res.public_id,
 					};
 					this.model.get('image')?.patchValue(dto);
-					this.postUserStorage();
+					this.save();
 				},
 				error: () => {
 					this.showToast({
@@ -126,6 +143,14 @@ export class UserFormComponent extends BaseFormDirective {
 			});
 	}
 
+	private save() {
+		if (this.uuid()) {
+			this.putUserStorage();
+		} else {
+			this.postUserStorage();
+		}
+	}
+
 	private postUserStorage() {
 		this.userStorageService.post(this.model.getRawValue());
 
@@ -133,6 +158,19 @@ export class UserFormComponent extends BaseFormDirective {
 			severity: 'success',
 			summary: 'Cadastro',
 			detail: 'Usuário cadastrado com sucesso',
+		});
+
+		this.router.navigate(['/user']);
+		this.loading.set(false);
+	}
+
+	private putUserStorage() {
+		this.userStorageService.put(this.model.getRawValue());
+
+		this.showToast({
+			severity: 'success',
+			summary: 'Editar',
+			detail: 'Usuário editado com sucesso',
 		});
 
 		this.router.navigate(['/user']);
