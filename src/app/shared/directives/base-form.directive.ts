@@ -53,4 +53,8 @@ export abstract class BaseFormDirective {
 
 		this.messageService.add(dto);
 	}
+
+	public showToast(data: ToastInterface) {
+		this.messageService.add(data);
+	}
 }
