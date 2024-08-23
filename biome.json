@@ -18,13 +18,16 @@
 			"arrowParentheses": "always"
 		}
 	},
-	"organizeImports": {
-		"enabled": true
-	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"style": {
+				"useImportType": {
+					"level": "warn",
+					"fix": "safe"
+				}
+			}
 		}
 	}
 }

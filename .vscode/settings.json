@@ -1,0 +1,30 @@
+{
+	"editor.rulers": [100],
+	"editor.defaultFormatter": "biomejs.biome",
+	"workbench.iconTheme": "material-icon-theme",
+	"editor.formatOnSave": true,
+	"editor.tabSize": 2,
+	"explorer.compactFolders": false,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "explicit",
+		"editor.organizeImports": "explicit",
+		"quickfix.biome": "explicit"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"angular-schematics.schematicsDefaultOptions": {
+		"angular-*": {
+			"skipChangeDetectionOnPush": false,
+			"withOnInit": false,
+			"style": "scss",
+			"inlineStyle": false,
+			"externalTemplate": true,
+			"stylesArray": false
+		}
+	},
+	"cSpell.language": "en,pt,pt-BR"
+}
