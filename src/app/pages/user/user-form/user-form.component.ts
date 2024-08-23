@@ -71,6 +71,11 @@ export class UserFormComponent extends BaseFormDirective implements OnInit {
 		});
 	}
 
+	protected resetImage() {
+		this.model.get('image')?.patchValue('');
+		this.cd.detectChanges();
+	}
+
 	private setModelData() {
 		if (this.uuid()) {
 			const dto = this.userStorageService.getByUuid(this.uuid());

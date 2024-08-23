@@ -1,7 +1,35 @@
-<label for="file" pButton class="flex gap-2" (click)="emptyValue()">
-    {{ label() }}
-    @if (iconVisible()) {
-        <i [class]="icon()"></i>
-    }
+@if (!srcPreview()) {
+<label
+  pButton
+  for="file"
+  [ngClass]="{ active: isActive() }"
+  pTooltip="Clique ou solte a imagem aqui"
+  tooltipPosition="bottom"
+  (click)="emptyValue()"
+>
+  {{ label() }}
+  @if (iconVisible()) {
+  <i [class]="icon()"></i>
+  }
 </label>
-<input #fileInput id="file" type="file" class="hidden" (change)="changeInput($event)" />
+<input
+  #fileInput
+  id="file"
+  type="file"
+  class="hidden"
+  (change)="changeInput($event)"
+/>
+} @else {
+<app-profile-image size="xLarge" class="mb-3" [src]="srcPreview()" />
+<button
+  pButton
+  icon="fa fa-xmark"
+  [rounded]="true"
+  [raised]="true"
+  severity="danger"
+  class="absolute top-0 right-custom"
+  pTooltip="Excluir"
+  tooltipPosition="right"
+  (click)="clickDelete()"
+></button>
+}
