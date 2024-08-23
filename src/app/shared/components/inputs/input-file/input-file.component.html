@@ -1,0 +1,7 @@
+<label for="file" pButton class="flex gap-2" (click)="emptyValue()">
+    {{ label() }}
+    @if (iconVisible()) {
+        <i [class]="icon()"></i>
+    }
+</label>
+<input #fileInput id="file" type="file" class="hidden" (change)="changeInput($event)" />
