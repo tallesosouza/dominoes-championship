@@ -8,6 +8,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { APP_ROUTES } from './app.routes';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -17,5 +18,6 @@ export const appConfig: ApplicationConfig = {
 		{ provide: LOCALE_ID, useValue: 'pt' },
 		{ provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
 		DialogService,
+		MessageService,
 	],
 };
