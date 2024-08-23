@@ -30,7 +30,7 @@ export class ProfileImageComponent {
 	public getSize = computed(() => {
 		switch (this.size()) {
 			case 'xLarge':
-				return 'w-6rem h-6rem';
+				return 'w-7rem h-7rem';
 			case 'large':
 				return 'w-5rem h-5rem';
 			case 'medium':
