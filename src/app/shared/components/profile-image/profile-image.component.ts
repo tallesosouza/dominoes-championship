@@ -23,12 +23,14 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileImageComponent {
-	public src = input('');
+	public src = input<string | null>('');
 	public alt = input('');
-	public size = input<'small' | 'medium' | 'large'>('small');
+	public size = input<'small' | 'medium' | 'large' | 'xLarge'>('small');
 
 	public getSize = computed(() => {
 		switch (this.size()) {
+			case 'xLarge':
+				return 'w-6rem h-6rem';
 			case 'large':
 				return 'w-5rem h-5rem';
 			case 'medium':
