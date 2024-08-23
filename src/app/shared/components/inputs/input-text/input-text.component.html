@@ -1,0 +1,12 @@
+<label [attr.for]="inputId()">{{ label() }}</label>
+<input 
+    pInputText
+    type="text"
+    [attr.id]="inputId()"
+    [placeholder]="placeHolder()"
+    (blur)="onTouched()"
+    [readonly]="isReadyOnly"
+    [disabled]="disabled"
+    [ngModel]="innerValue()"
+    (ngModelChange)="innerValue.set($event)"
+/>
