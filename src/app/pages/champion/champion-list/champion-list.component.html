@@ -1,0 +1,29 @@
+<app-main-header title="Campeonato" />
+
+<div class="content-page-list">
+  <div class="table-action-header">
+    <p-inputGroup class="w-20rem">
+      <p-inputGroupAddon>
+        <i class="fa fa-search"></i>
+      </p-inputGroupAddon>
+      <input
+        pInputText
+        placeholder="Pesquisar..."
+        [formControl]="searchControl"
+      />
+    </p-inputGroup>
+
+    <button pButton routerLink="new">
+      Criar<i class="fa fa-plus ml-3"></i>
+    </button>
+  </div>
+
+  @for (item of gridData(); track $index) {
+  <app-champion-card [gridData]="item" [routerLink]="'progress/' + item.uuid" />
+  } @empty {
+  <div class="flex flex-column align-items-center gap-2">
+    <i class="fa-solid fa-triangle-exclamation text-3xl text-yellow-500"></i>
+    <h6 class="text-gray-600">Nenhum campeonato encontrado</h6>
+  </div>
+  }
+</div>
