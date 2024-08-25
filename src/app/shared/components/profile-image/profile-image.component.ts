@@ -1,9 +1,10 @@
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 @Component({
 	selector: 'app-profile-image',
 	standalone: true,
-	imports: [],
+	imports: [NgClass],
 	template: `
     @if (src()) {
       <img
@@ -16,7 +17,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
         [class]="getSize() +
         ' text-4xl surface-100 border-circle shadow-5 flex align-items-center justify-content-center'"
       >
-        <i class="fa fa-user"></i>
+        <i class="fa fa-user" [ngClass]="{' text-sm ' : this.size() === 'small' }"></i>
       </div>
     }
   `,
