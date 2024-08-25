@@ -39,6 +39,21 @@
             <span class="ml-2">{{ user.name }} {{ user.surname }}</span>
           </div>
         </ng-template>
+        <ng-template pTemplate="empty">
+          <div
+            class="flex flex-column justify-content-center align-items-center gap-3"
+          >
+            <span>Nenhum jogador cadastrado</span>
+            <button pButton routerLink="/user/new">
+              Adicionar<i class="fa fa-plus ml-3"></i>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="emptyfilter"
+          ><span
+            >Nenhum resultado encontrado para o filtro aplicado.</span
+          ></ng-template
+        >
       </p-multiSelect>
     </div>
 

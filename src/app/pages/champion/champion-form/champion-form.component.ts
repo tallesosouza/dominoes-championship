@@ -2,6 +2,7 @@ import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import type { UserInterface } from '@core/interfaces/user';
 import { UserStorageService } from '@core/services/user-storage.service';
 import { InputTextComponent } from '@shared/components/inputs/input-text/input-text.component';
@@ -30,6 +31,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 		CardModule,
 		NgClass,
 		ChipModule,
+		RouterLink,
 	],
 	styles: `
 		:host {
