@@ -1,50 +1,46 @@
 <div class="sidebar-menu-screen-container">
-    <div class="sidebar-menu-container" [ngClass]="{'close-sidebar': !openMenu()}">
-        <div class="header-sidebar-menu">
+  <div
+    class="sidebar-menu-container"
+    [ngClass]="{ 'close-sidebar': !openMenu() }"
+  >
+    <div class="header-sidebar-menu">
+      @if (openMenu()) {
+      <h5 class="header-menu" @toggleMenuInternal>Menu</h5>
+      }
+      <div class="button-menu" (click)="clickToggleMenu()">
+        <i class="fa-solid fa-bars" [pTooltip]="tooltipMenuText()"></i>
+      </div>
+    </div>
+
+    <hr class="hr-sidebar-menu-screen" />
+
+    <div class="list-sidebar-menu">
+      <ul>
+        @for (menu of menuList(); track $index) {
+        <li>
+          <a
+            [routerLink]="menu.routerLink"
+            class="button-menu"
+            routerLinkActive="active-menu"
+            [pTooltip]="openMenu() ? '' : menu.label"
+          >
+            <i [class]="'fa ' + menu.iconClass"></i>
             @if (openMenu()) {
-                <h5 class="header-menu" @toogleMenuInternal>Menu</h5>
-            } 
-            <div class="button-menu" (click)="clickToggleMenu()">
-                <i
-                    class="fa-solid fa-bars"
-                    [pTooltip]="tooltipMenuText()"
-                ></i>
-            </div>
-        </div>
-
-
-        <hr class="hr-sidebar-menu-screen">
-
-        <div class="list-sidebar-menu">
-            <ul>
-                @for (menu of menuList(); track $index) {
-                    <li>
-                        <a
-                            [routerLink]="menu.routerLink"
-                            class="button-menu"
-                            (click)="clickToggleMenu()"
-                            routerLinkActive="actvated-menu"
-                            [pTooltip]="openMenu() ? '' : (menu.label)"
-                        >
-                            <i [class]="'fa '+menu.iconClass"></i>
-                            @if (openMenu()) {
-                                <p @toogleMenuInternal>{{menu.label}}</p>
-                            }
-                        </a>
-                    </li>
-                } @empty {
-                    @for (item of [1, 1, 1, 1, 1]; track $index) {
-                        <p-skeleton height="2rem" styleClass="mb-2" />
-                    }
-                }
-            </ul>
-        </div>
+            <p @toggleMenuInternal>{{ menu.label }}</p>
+            }
+          </a>
+        </li>
+        } @empty { @for (item of [1, 1, 1, 1, 1]; track $index) {
+        <p-skeleton height="2rem" styleClass="mb-2" />
+        } }
+      </ul>
     </div>
+  </div>
 
-    <div class="sidebar-menu-screen-content">
-        <div class="internal-sidebar">
-          <ng-content></ng-content>
-        </div>
-        <app-footer />
+  <div class="sidebar-menu-screen-content">
+    <div class="internal-sidebar">
+      <ng-content></ng-content>
     </div>
+    <app-footer />
+  </div>
 </div>
