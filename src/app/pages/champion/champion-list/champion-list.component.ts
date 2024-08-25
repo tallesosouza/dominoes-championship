@@ -28,13 +28,7 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class ChampionListComponent implements OnInit {
 	protected searchControl = new FormControl();
-	protected gridData = signal<ChampionInterface[]>([
-		{
-			uuid: '123-123-123',
-			title: 'Lorem Ipsum dolor',
-			description: 'Lorem Ipsum dolor seet amet log',
-		},
-	]);
+	protected gridData = signal<ChampionInterface[]>([]);
 
 	ngOnInit(): void {
 		this.searchControl.disable();
