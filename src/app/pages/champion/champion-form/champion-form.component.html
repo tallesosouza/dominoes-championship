@@ -1,0 +1,84 @@
+<app-main-header title="Campeonato" />
+
+<div class="content-page-list">
+  <form [formGroup]="model" class="flex flex-column gap-3">
+    <app-input-text formControlName="title" label="Titulo" class="flex-1" />
+    <app-input-text
+      formControlName="description"
+      label="Descrição"
+      class="flex-1"
+    />
+
+    <div class="flex flex-column gap-2">
+      <label for="multiSelect">Jogadores</label>
+      <p-multiSelect
+        #multiSelect
+        id="multiSelect"
+        styleClass="w-full"
+        [options]="userList()"
+        placeholder="Selecione os jogadores"
+        formControlName="players"
+        filterBy="name, surname"
+        [maxlength]="PLAYERS_MAX"
+        [minlength]="PLAYERS_MAX"
+      >
+        <ng-template let-value pTemplate="selectedItems">
+          @for (option of value; track $index) {
+          <div class="inline-flex align-items-center gap-2 px-1">
+            <div>
+              {{ option.name }}@if(option.surname){ {{ option.surname }}},
+            </div>
+          </div>
+          } @if (!value || value.length === 0) {
+          <span>Selecione os jogadores</span>
+          }
+        </ng-template>
+        <ng-template let-user pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <app-profile-image [src]="user.image.url" size="small" />
+            <span class="ml-2">{{ user.name }} {{ user.surname }}</span>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+
+    <div class="flex justify-content-end">
+      <p
+        [ngClass]="{
+          'text-red-600':
+            controls.players.value &&
+            controls.players.value.length > PLAYERS_MAX
+        }"
+      >
+        <strong>{{ controls.players.value?.length }}/{{ PLAYERS_MAX }}</strong>
+      </p>
+    </div>
+
+    <p-button
+      label="Salvar"
+      [loading]="loading()"
+      (onClick)="onSubmit()"
+      styleClass="w-full"
+    />
+
+    <p>Preview</p>
+    <p-card
+      [header]="controls.title.value ?? ''"
+      [subheader]="controls.description.value ?? ''"
+    >
+      @if (playersValues) {
+      <p class="mb-3">Jogadores cadastrado:</p>
+      }
+      <div class="flex flex-wrap gap-3">
+        @for (item of playersValues; track $index) {
+        <p-chip
+          [label]="item.name + (item.surname ? item.surname : '')"
+          [image]="item.image?.url"
+          icon="fa fa-user"
+          [styleClass]="$index + 1 > PLAYERS_MAX ? 'bg-red-400 text-white' : ''"
+        />
+        }
+      </div>
+    </p-card>
+  </form>
+</div>
