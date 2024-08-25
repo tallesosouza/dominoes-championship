@@ -1,0 +1,18 @@
+<div class="container-icon">
+  <i class="fa-solid fa-trophy"></i>
+</div>
+<h1 class="title">{{ gridData().title }}</h1>
+@if (gridData().description) {
+<p class="sub-title">
+  {{ gridData().description }}
+</p>
+} @if (showButton()) {
+<button
+  pButton
+  @buttonAnimation
+  label="Acessar"
+  icon="fa-solid fa-angles-right"
+  iconPos="right"
+  [text]="true"
+></button>
+}
