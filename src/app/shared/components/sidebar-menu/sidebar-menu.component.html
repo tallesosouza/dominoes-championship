@@ -23,6 +23,8 @@
             class="button-menu"
             routerLinkActive="active-menu"
             [pTooltip]="openMenu() ? '' : menu.label"
+            [ngClass]="{ disable: menu.disable }"
+            [tooltipDisabled]="!!menu.disable"
           >
             <i [class]="'fa ' + menu.iconClass"></i>
             @if (openMenu()) {

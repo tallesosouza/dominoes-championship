@@ -42,6 +42,13 @@
     cursor: pointer;
   }
 
+  &.disable {
+    background-color: transparent;
+    opacity: 0.5;
+    cursor: auto;
+    pointer-events: none;
+  }
+
   p {
     font-weight: 500;
     margin-left: 1rem;

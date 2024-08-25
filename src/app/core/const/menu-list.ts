@@ -5,6 +5,7 @@ export const MENU_LIST: MenuInterface[] = [
 		label: 'Home',
 		routerLink: '/home',
 		iconClass: 'fa-house',
+		disable: true,
 	},
 	{
 		label: 'Jogadores',
@@ -20,5 +21,6 @@ export const MENU_LIST: MenuInterface[] = [
 		label: 'Salvar',
 		routerLink: '/save',
 		iconClass: 'fa-cloud',
+		disable: true,
 	},
 ];
