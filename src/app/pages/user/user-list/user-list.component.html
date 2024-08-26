@@ -1,85 +1,80 @@
 <app-main-header title="Jogadores" />
 
 <div class="content-page-list">
+  <div class="table-action-header">
+    <p-inputGroup class="w-20rem">
+      <p-inputGroupAddon>
+        <i class="fa fa-search"></i>
+      </p-inputGroupAddon>
+      <input
+        pInputText
+        placeholder="Pesquisar..."
+        [formControl]="searchControl"
+      />
+    </p-inputGroup>
 
-    <div class="table-action-header">
+    <button pButton routerLink="new">
+      Adicionar<i class="fa fa-plus ml-3"></i>
+    </button>
+  </div>
 
-        <p-inputGroup class="w-20rem">
-            <p-inputGroupAddon>
-                <i class="fa fa-search"></i>
-            </p-inputGroupAddon>
-            <input
-                pInputText
-                placeholder="Pesquisar..."
-                [formControl]="searchControl"
-            />
-        </p-inputGroup>
-
-        <button 
-            pButton
-            routerLink="new"
-        >
-            Adicionar<i class="fa fa-plus ml-3"></i>
-        </button>
-    </div>
-    
-    <p-table
-        [value]="gridData()"
-        [tableStyle]="{ 'width': '100%' }"
-        [paginator]="isGridData()"
-        [rows]="10"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        [loading]="loading()"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Página {first} de {last} ({totalRecords} itens)"
-    >
-        <ng-template pTemplate="header">
-            <tr>
-                <th class="w-8rem"></th>
-                <th>Nome</th>
-                <th>Sobrenome</th>
-                <th class="w-10rem"></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-user>
-            <tr>
-                <td>
-                    <app-profile-image
-                        [src]="user?.image.url"
-                        [alt]="user.name"
-                        size="medium"
-                    />
-                </td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.surname }}</td>
-                <td>
-                    <div class="flex gap-2 justify-content-end">
-                        <button
-                            pButton
-                            icon="fa fa-pen"
-                            [rounded]="true"
-                            severity="primary"
-                            pTooltip="Editar"
-                            tooltipPosition="bottom"
-                            (click)="navigatorEdit(user.uuid)"
-                        ></button>
-                        <button
-                            pButton
-                            icon="fa fa-trash"
-                            [rounded]="true"
-                            severity="danger"
-                            pTooltip="Excluir"
-                            tooltipPosition="bottom"
-                            (click)="userDelete(user.uuid)"
-                        ></button>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td class="text-center" colspan="4">Nenhum jogador encontrado</td>
-            </tr>
-        </ng-template>
-    </p-table>
+  <p-table
+    [value]="gridData()"
+    [tableStyle]="{ width: '100%' }"
+    [paginator]="isGridData()"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading()"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Página {first} de {last} ({totalRecords} itens)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="w-8rem"></th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th class="w-10rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <app-profile-image
+            [src]="user?.image?.url"
+            [alt]="user.name"
+            size="medium"
+          />
+        </td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.surname }}</td>
+        <td>
+          <div class="flex gap-2 justify-content-end">
+            <button
+              pButton
+              icon="fa fa-pen"
+              [rounded]="true"
+              severity="primary"
+              pTooltip="Editar"
+              tooltipPosition="bottom"
+              (click)="navigatorEdit(user.uuid)"
+            ></button>
+            <button
+              pButton
+              icon="fa fa-trash"
+              [rounded]="true"
+              severity="danger"
+              pTooltip="Excluir"
+              tooltipPosition="bottom"
+              (click)="userDelete(user.uuid)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td class="text-center" colspan="4">Nenhum jogador encontrado</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>

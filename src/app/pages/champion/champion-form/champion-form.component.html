@@ -35,7 +35,7 @@
         </ng-template>
         <ng-template let-user pTemplate="item">
           <div class="flex align-items-center gap-2">
-            <app-profile-image [src]="user.image.url" size="small" />
+            <app-profile-image [src]="user?.image?.url" size="small" />
             <span class="ml-2">{{ user.name }} {{ user.surname }}</span>
           </div>
         </ng-template>
@@ -88,7 +88,7 @@
         @for (item of playersValues; track $index) {
         <p-chip
           [label]="item.name + (item.surname ? item.surname : '')"
-          [image]="item.image?.url"
+          [image]="item?.image?.url"
           icon="fa fa-user"
           [styleClass]="$index + 1 > PLAYERS_MAX ? 'bg-red-400 text-white' : ''"
         />
