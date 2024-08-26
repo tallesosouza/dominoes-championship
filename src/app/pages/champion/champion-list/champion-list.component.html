@@ -18,12 +18,17 @@
     </button>
   </div>
 
-  @for (item of gridData(); track $index) {
-  <app-champion-card [gridData]="item" [routerLink]="'progress/' + item.uuid" />
-  } @empty {
-  <div class="flex flex-column align-items-center gap-2">
-    <i class="fa-solid fa-triangle-exclamation text-3xl text-yellow-500"></i>
-    <h6 class="text-gray-600">Nenhum campeonato encontrado</h6>
+  <div class="flex flex-column gap-3 w-full" style="max-width: 700px">
+    @for (item of gridData(); track $index) {
+    <app-champion-card
+      [gridData]="item"
+      [routerLink]="'progress/' + item.uuid"
+    />
+    } @empty {
+    <div class="flex flex-column align-items-center gap-2">
+      <i class="fa-solid fa-triangle-exclamation text-3xl text-yellow-500"></i>
+      <h6 class="text-gray-600">Nenhum campeonato encontrado</h6>
+    </div>
+    }
   </div>
-  }
 </div>
