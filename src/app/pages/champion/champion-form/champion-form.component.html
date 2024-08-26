@@ -61,11 +61,13 @@
       <p
         [ngClass]="{
           'text-red-600':
-            controls.players.value &&
-            controls.players.value.length > PLAYERS_MAX
+            controls['players'].value &&
+            controls['players'].value.length > PLAYERS_MAX
         }"
       >
-        <strong>{{ controls.players.value?.length }}/{{ PLAYERS_MAX }}</strong>
+        <strong
+          >{{ controls["players"].value?.length }}/{{ PLAYERS_MAX }}</strong
+        >
       </p>
     </div>
 
@@ -78,8 +80,8 @@
 
     <p>Preview</p>
     <p-card
-      [header]="controls.title.value ?? ''"
-      [subheader]="controls.description.value ?? ''"
+      [header]="controls['title'].value ?? ''"
+      [subheader]="controls['description'].value ?? ''"
     >
       @if (playersValues) {
       <p class="mb-3">Jogadores cadastrado:</p>
