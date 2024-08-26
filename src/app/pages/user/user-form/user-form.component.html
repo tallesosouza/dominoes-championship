@@ -18,11 +18,22 @@
       />
     </div>
 
-    <p-button
-      label="Salvar"
-      [loading]="loading()"
-      (onClick)="onSubmit()"
-      styleClass="w-full"
-    />
+    <div class="flex gap-3 w-full">
+      <p-button
+        label="Voltar"
+        [text]="true"
+        class="flex-1"
+        styleClass="w-full"
+        routerLink="/user"
+      />
+
+      <p-button
+        label="Salvar"
+        [loading]="loading()"
+        (onClick)="onSubmit()"
+        class="flex-1"
+        styleClass="w-full"
+      />
+    </div>
   </form>
 </div>

@@ -14,7 +14,7 @@ import {
 	type UntypedFormGroup,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import type { FileInterface } from '@core/interfaces/file';
 import { UploadService } from '@core/services/upload.service';
 import { UserStorageService } from '@core/services/user-storage.service';
@@ -41,6 +41,7 @@ import { finalize, take } from 'rxjs';
 		ProfileImageComponent,
 		FileUploadModule,
 		InputFileComponent,
+		RouterLink,
 	],
 	templateUrl: './user-form.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,7 +88,7 @@ export class UserFormComponent extends BaseFormDirective implements OnInit {
 
 	get imageSrc() {
 		const dto = this.model.get('image')?.value;
-		if (dto.url) {
+		if (dto?.url) {
 			return dto.url;
 		}
 		return dto;
@@ -165,7 +166,7 @@ export class UserFormComponent extends BaseFormDirective implements OnInit {
 			detail: 'Usuário cadastrado com sucesso',
 		});
 
-		this.router.navigate(['/user']);
+		this.resetForm();
 		this.loading.set(false);
 	}
 
@@ -178,7 +179,17 @@ export class UserFormComponent extends BaseFormDirective implements OnInit {
 			detail: 'Usuário editado com sucesso',
 		});
 
-		this.router.navigate(['/user']);
+		this.resetForm();
 		this.loading.set(false);
+	}
+
+	private resetForm() {
+		const uuid = this.model.get('uuid')?.value;
+
+		if (uuid) {
+			this.router.navigate(['/user']);
+		}
+
+		this.onClearForm();
 	}
 }
