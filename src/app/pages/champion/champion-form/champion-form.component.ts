@@ -51,7 +51,7 @@ export class ChampionFormComponent extends BaseFormDirective {
 	protected loading = signal(false);
 	protected userList = toSignal(this.userStorageService.get());
 
-	protected readonly PLAYERS_MAX = 16;
+	protected readonly PLAYERS_MAX = 32;
 
 	private getModel() {
 		return this.build.group({
