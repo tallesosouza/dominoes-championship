@@ -16,7 +16,10 @@ import { InputTextComponent } from '@shared/components/inputs/input-text/input-t
 import { MainHeaderComponent } from '@shared/components/main-header/main-header.component';
 import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
 import { BaseFormDirective } from '@shared/directives/base-form.directive';
-import { FIRST_PHASE_TABLES_QUANT } from '@shared/helpers/champion-config';
+import {
+	FIRST_PHASE_TABLES_QUANT,
+	SECOND_PHASE_TABLES_QUANT,
+} from '@shared/helpers/champion-config';
 import { createEmptyArrays } from '@shared/utils/functions';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -106,6 +109,10 @@ export class ChampionFormComponent extends BaseFormDirective {
 			firstPhase: {
 				status: 'START',
 				tables: [...createEmptyArrays(FIRST_PHASE_TABLES_QUANT)],
+			},
+			secondPhase: {
+				status: 'START',
+				tables: [...createEmptyArrays(SECOND_PHASE_TABLES_QUANT)],
 			},
 		};
 

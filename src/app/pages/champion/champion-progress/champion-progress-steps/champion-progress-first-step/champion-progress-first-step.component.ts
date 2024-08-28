@@ -8,6 +8,8 @@ import { MessageService } from 'primeng/api';
 import { ButtonDirective } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 
+type DrawChangeDTO = Pick<StagesInterface, 'firstPhase'>;
+
 @Component({
 	selector: 'app-champion-progress-first-step',
 	standalone: true,
@@ -64,10 +66,10 @@ export class ChampionProgressFirstStepComponent {
 
 	protected generateDraw() {
 		if (!this.drawButtonDisabled()) {
-			const dto = {
+			const dto: DrawChangeDTO = {
 				firstPhase: this.distributePlayers(),
 			};
-			this.onDrawChange.emit(dto);
+			this.onDrawChange.emit(dto as StagesInterface);
 		}
 	}
 

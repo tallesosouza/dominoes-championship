@@ -1,6 +1,7 @@
 import type { TablesInterface } from '@core/interfaces/champion';
 
 export const FIRST_PHASE_TABLES_QUANT = 8;
+export const SECOND_PHASE_TABLES_QUANT = 6;
 
 export function isFirstPhaseValid(data: TablesInterface) {
 	const eliminatedQuant = data.tables.flatMap((res) =>
