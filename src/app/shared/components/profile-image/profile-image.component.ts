@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 	template: `
     @if (src()) {
       <img
-        [class]="getSize() + ' border-circle shadow-5'"
+        [class]="getSize() + ' border-circle shadow-5 flex'"
         [src]="src()"
         [alt]="alt()"
       />
@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileImageComponent {
-	public src = input<string | null>('');
+	public src = input<string | null | undefined>('');
 	public alt = input('');
 	public size = input<'small' | 'medium' | 'large' | 'xLarge'>('small');
 
