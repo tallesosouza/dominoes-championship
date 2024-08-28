@@ -12,3 +12,7 @@ export function generateUUID(): string {
 	}
 	return uuid;
 }
+
+export function createEmptyArrays(quantity: number) {
+	return Array.from({ length: quantity }, () => []);
+}
