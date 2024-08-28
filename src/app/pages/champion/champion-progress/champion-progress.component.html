@@ -1,0 +1,36 @@
+@if(this.gridData()) {
+<p-stepper [linear]="true" [activeStep]="active()">
+  <p-stepperPanel header="Fase">
+    <ng-template pTemplate="content">
+      <app-champion-progress-first-step
+        [gridData]="gridData()!.stages.firstPhase"
+        [players]="gridData()!.players"
+        (onDrawChange)="generateDraw($event)"
+        (onUpdateResult)="updateResult()"
+        (onNextChange)="logicNext()"
+      />
+    </ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase | Semifinal">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+  <p-stepperPanel header="Fase | Final">
+    <ng-template pTemplate="content"></ng-template>
+  </p-stepperPanel>
+</p-stepper>
+}

@@ -1,7 +1,7 @@
 import type { Routes } from '@angular/router';
 import { ChampionFormComponent } from './champion-form/champion-form.component';
 import { ChampionListComponent } from './champion-list/champion-list.component';
-import { ChampionComponent } from './champion.component';
+import { ChampionProgressComponent } from './champion-progress/champion-progress.component';
 
 export const CHAMPION_ROUTES: Routes = [
 	{
@@ -14,6 +14,6 @@ export const CHAMPION_ROUTES: Routes = [
 	},
 	{
 		path: 'progress/:uuid',
-		component: ChampionComponent,
+		component: ChampionProgressComponent,
 	},
 ];
