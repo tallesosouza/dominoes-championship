@@ -41,6 +41,7 @@
 
   <div class="sidebar-menu-screen-content">
     <div class="internal-sidebar">
+      @if(loading()) { <app-loading [isMenuOpen]="openMenu()" /> }
       <ng-content></ng-content>
     </div>
     <app-footer />
