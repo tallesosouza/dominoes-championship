@@ -1,0 +1,23 @@
+<div class="w-full shadow-2">
+  <div class="header">
+    <h5 class="title">{{ number() }} - Mesa</h5>
+  </div>
+  <div class="flex flex-column" style="min-height: 81.6px">
+    @for (item of gridData(); track $index) {
+    <button
+      pButton
+      pTooltip="Click para eliminar"
+      tooltipPosition="right"
+      [tooltipDisabled]="disable()"
+      [text]="true"
+      [disabled]="item.status === 'ELIMINATED' ? true : false"
+      severity="secondary"
+      (click)="playerEliminated(item.uuid!)"
+      [ngClass]="{ finalized: disable() }"
+    >
+      <app-profile-image size="medium" [src]="item?.image?.url" />
+      <span class="ml-3">{{ item.name }} {{ item.surname }}</span>
+    </button>
+    }
+  </div>
+</div>
