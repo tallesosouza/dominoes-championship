@@ -32,5 +32,7 @@ export interface StagesInterface {
 
 export type TablesInterface = {
 	tables: Array<PlayerInterface[]>;
-	status: 'START' | 'IN_PROGRESS' | 'FINALIZED';
+	status: TablesStatusInterface;
 };
+
+export type TablesStatusInterface = 'START' | 'IN_PROGRESS' | 'FINALIZED';
