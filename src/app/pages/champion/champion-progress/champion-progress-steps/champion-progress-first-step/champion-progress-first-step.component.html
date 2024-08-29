@@ -6,7 +6,7 @@
     <app-desk-card
       [gridData]="item"
       [index]="$index"
-      (onChangeTableResult)="onUpdateResult.emit()"
+      (onChangeTableResult)="updateResult()"
       [disable]="gridData().status === 'FINALIZED'"
     />
     }
