@@ -14,7 +14,6 @@ import type { ToastInterface } from '@core/interfaces/toats';
 import { ChampionStorageService } from '@core/services/champion-storage.service';
 import { LoadingService } from '@core/services/loading.service';
 import { ConfirmeDialogComponent } from '@shared/components/dialog/confirme-dialog/confirme-dialog.component';
-import { isFirstPhaseValid } from '@shared/helpers/champion-config';
 import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -123,6 +122,10 @@ export class ChampionProgressComponent implements OnInit {
 		}
 	}
 
+	protected updateResult() {
+		this.championStorageService.put(this.gridData() as ChampionInterface);
+	}
+
 	protected generateDraw(data: StagesInterface) {
 		this.loadingService.setToggle();
 		const dto = {
@@ -135,13 +138,15 @@ export class ChampionProgressComponent implements OnInit {
 		this.championStorageService.put(dto as ChampionInterface);
 	}
 
-	protected updateResult() {
-		const dto = this.gridData() as ChampionInterface;
+	protected stagesUpdateResult(data: StagesInterface) {
+		const dto = {
+			...this.gridData(),
+			stages: {
+				...this.gridData()?.stages,
+				...data,
+			},
+		};
 
-		if (isFirstPhaseValid(dto.stages.firstPhase)) {
-			dto.stages.firstPhase.status = 'FINALIZED';
-		}
-
-		this.championStorageService.put(this.gridData() as ChampionInterface);
+		this.championStorageService.put(dto as ChampionInterface);
 	}
 }

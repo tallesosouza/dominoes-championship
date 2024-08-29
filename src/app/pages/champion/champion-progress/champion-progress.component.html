@@ -6,14 +6,21 @@
         [gridData]="gridData()!.stages.firstPhase"
         [players]="gridData()!.players"
         (onDrawChange)="generateDraw($event)"
-        (onUpdateResult)="updateResult()"
+        (onUpdateResult)="stagesUpdateResult($event)"
         (onNextChange)="logicNext()"
       />
     </ng-template>
   </p-stepperPanel>
   <p-stepperPanel header="Fase">
     <ng-template pTemplate="content">
-      <app-champion-progress-second-step />
+      <app-champion-progress-second-step
+        [gridData]="gridData()!.stages.secondPhase"
+        [players]="gridData()!.stages.firstPhase.tables"
+        (onPrevChange)="prev()"
+        (onDrawChange)="generateDraw($event)"
+        (onUpdateResult)="stagesUpdateResult($event)"
+        (onNextChange)="logicNext()"
+      />
     </ng-template>
   </p-stepperPanel>
   <p-stepperPanel header="Fase">
