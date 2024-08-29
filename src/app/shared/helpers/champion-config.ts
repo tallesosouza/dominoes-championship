@@ -13,3 +13,14 @@ export function isFirstPhaseValid(data: TablesInterface) {
 	}
 	return false;
 }
+
+export function isSecondPhaseValid(data: TablesInterface) {
+	const eliminatedQuant = data.tables.flatMap((res) =>
+		res.filter((res) => res.status === 'ELIMINATED'),
+	);
+
+	if (eliminatedQuant.length === SECOND_PHASE_TABLES_QUANT) {
+		return true;
+	}
+	return false;
+}
