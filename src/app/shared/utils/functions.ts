@@ -99,10 +99,8 @@ export function distributePlayers(
 			const randomIndex = Math.floor(Math.random() * leftovers.length);
 			const player = leftovers[randomIndex];
 
-			if (canAddToTable(table, player)) {
-				table.push(player);
-				leftovers.splice(randomIndex, 1); // Remove o jogador dos leftovers
-			}
+			table.push(player);
+			leftovers.splice(randomIndex, 1); // Remove o jogador dos leftovers
 		}
 	});
 
