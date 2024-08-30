@@ -126,17 +126,15 @@ export class ChampionProgressSeventhStepComponent {
 			status: 'IN_PROGRESS',
 		};
 
-		const playersClassified = this.players().map((res) =>
+		const playersClassified = this.players().flatMap((res) =>
 			res.filter((player) => player.status === 'CLASSIFIED'),
 		);
 
-		playersClassified.flatMap((res, index) => {
-			// biome-ignore lint/complexity/noForEach: <explanation>
-			res.forEach((value) => {
-				dto.tables[index].push({
-					...value,
-					status: 'IN_PROGRESS',
-				});
+		// biome-ignore lint/complexity/noForEach: <explanation>
+		playersClassified.forEach((player) => {
+			dto.tables[0].push({
+				...player,
+				status: 'IN_PROGRESS',
 			});
 		});
 
