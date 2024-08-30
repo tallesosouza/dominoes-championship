@@ -18,6 +18,7 @@ import { ProfileImageComponent } from '@shared/components/profile-image/profile-
 import { BaseFormDirective } from '@shared/directives/base-form.directive';
 import {
 	FIRST_PHASE_TABLES_QUANT,
+	FOURTH_PHASE_TABLES_QUANT,
 	SECOND_PHASE_TABLES_QUANT,
 	THIRD_PHASE_TABLES_QUANT,
 } from '@shared/helpers/champion-config';
@@ -118,6 +119,10 @@ export class ChampionFormComponent extends BaseFormDirective {
 			thirdPhase: {
 				status: 'START',
 				tables: [...createEmptyArrays(THIRD_PHASE_TABLES_QUANT)],
+			},
+			fourthPhase: {
+				status: 'START',
+				tables: [...createEmptyArrays(FOURTH_PHASE_TABLES_QUANT)],
 			},
 		};
 
