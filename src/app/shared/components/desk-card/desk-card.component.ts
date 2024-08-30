@@ -14,7 +14,7 @@ import { ProfileImageComponent } from '../profile-image/profile-image.component'
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeskCardComponent {
-	public onChangeTableResult = output<PlayerInterface[]>();
+	public onClickChange = output<PlayerInterface>();
 	public gridData = input<PlayerInterface[]>([]);
 	public index = input<number>(0);
 	public disable = input(false);
@@ -28,18 +28,9 @@ export class DeskCardComponent {
 		return num;
 	});
 
-	protected playerEliminated(uuid: string) {
+	protected onClick(data: PlayerInterface) {
 		if (!this.disable()) {
-			const dto = this.gridData().map((player) => {
-				if (player.uuid === uuid) {
-					player.status = 'ELIMINATED';
-				} else {
-					player.status = 'CLASSIFIED';
-				}
-
-				return player;
-			});
-			this.onChangeTableResult.emit(dto);
+			this.onClickChange.emit(data);
 		}
 	}
 }

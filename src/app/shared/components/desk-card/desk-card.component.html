@@ -12,7 +12,7 @@
       [text]="true"
       [disabled]="item.status === 'ELIMINATED' ? true : false"
       severity="secondary"
-      (click)="playerEliminated(item.uuid!)"
+      (click)="onClick(item)"
       [ngClass]="{ finalized: disable() }"
     >
       <app-profile-image size="medium" [src]="item?.image?.url" />
