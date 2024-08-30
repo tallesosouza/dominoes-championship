@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, type OnInit, computed, input } from '@angular/core';
 import type { TablesInterface } from '@core/interfaces/champion';
 import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
@@ -11,16 +11,20 @@ import { MainHeaderComponent } from '../main-header/main-header.component';
 	templateUrl: './champion-stage-summary.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChampionStageSummaryComponent {
+export class ChampionStageSummaryComponent implements OnInit {
 	public titleClassified = input.required<string>();
 	public titleClassifiedSkip = input<string>();
 
 	public gridData = input.required<TablesInterface>();
+	public previousStep = input<TablesInterface>();
 
 	protected playersClassifieds = computed(() => {
-		return this.gridData().tables.flatMap((res) =>
+		const players = this.gridData().tables.flatMap((res) =>
 			res.filter((player) => player.status === 'CLASSIFIED'),
 		);
+		const playersPrevious = this.previousStep()?.skipStepClassified ?? [];
+
+		return playersPrevious.concat(players);
 	});
 
 	protected playersEliminated = computed(() => {
@@ -33,7 +37,7 @@ export class ChampionStageSummaryComponent {
 		return this.gridData().skipStepClassified;
 	});
 
-	// protected playersEliminated
-
-	// protected playersClassifiedSkip
+	ngOnInit(): void {
+		console.log(this.gridData());
+	}
 }

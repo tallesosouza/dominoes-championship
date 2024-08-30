@@ -1,45 +1,51 @@
 <app-main-header title="Resumo" />
 <div class="flex gap-3">
   <div
-    class="w-full flex flex-wrap border-2 border-dashed border-round p-3 gap-3 border-red-500 bg-red-100"
+    class="w-full flex flex-column border-2 border-dashed border-round p-3 gap-3 border-red-500 bg-red-100"
   >
-    <h5 class="title w-full mb-3 text-center">Eliminados</h5>
-    @for (item of playersEliminated(); track $index) {
-    <p-chip
-      [label]="item.name + (item.surname ? item.surname : '')"
-      [image]="item?.image?.url"
-      icon="fa fa-user"
-    />
-    }
+    <h5 class="title mb-3 text-center">Eliminados</h5>
+    <div class="w-full flex flex-wrap gap-3">
+      @for (item of playersEliminated(); track $index) {
+      <p-chip
+        [label]="item.name + (item.surname ? item.surname : '')"
+        [image]="item?.image?.url"
+        icon="fa fa-user"
+      />
+      }
+    </div>
   </div>
   <p-divider layout="vertical" />
   <div
-    class="w-full flex flex-wrap border-2 border-dashed border-round p-3 gap-3 border-green-500 bg-green-100"
+    class="w-full flex flex-column border-2 border-dashed border-round p-3 gap-3 border-green-500 bg-green-100"
   >
-    <h5 class="title w-full mb-3 text-center">{{ titleClassified() }}</h5>
-    @for (item of playersClassifieds(); track $index) {
-    <p-chip
-      [label]="item.name + (item.surname ? item.surname : '')"
-      [image]="item?.image?.url"
-      icon="fa fa-user"
-    />
-    }
+    <h5 class="title mb-3 text-center">{{ titleClassified() }}</h5>
+    <div class="w-full flex flex-wrap gap-3">
+      @for (item of playersClassifieds(); track $index) {
+      <p-chip
+        [label]="item.name + (item.surname ? item.surname : '')"
+        [image]="item?.image?.url"
+        icon="fa fa-user"
+      />
+      }
+    </div>
   </div>
 
   @if(playersClassifiedSkip()?.length) {
   <p-divider layout="vertical" />
 
   <div
-    class="w-full flex flex-wrap border-2 border-dashed border-round p-3 gap-3 border-yellow-500 bg-yellow-100"
+    class="w-full flex flex-column border-2 border-dashed border-round p-3 gap-3 border-yellow-500 bg-yellow-100"
   >
-    <h5 class="title w-full mb-3 text-center">{{ titleClassifiedSkip() }}</h5>
-    @for (item of playersClassifiedSkip(); track $index) {
-    <p-chip
-      [label]="item.name + (item.surname ? item.surname : '')"
-      [image]="item?.image?.url"
-      icon="fa fa-user"
-    />
-    }
+    <h5 class="title mb-3 text-center">{{ titleClassifiedSkip() }}</h5>
+    <div class="w-full flex flex-wrap gap-3">
+      @for (item of playersClassifiedSkip(); track $index) {
+      <p-chip
+        [label]="item.name + (item.surname ? item.surname : '')"
+        [image]="item?.image?.url"
+        icon="fa fa-user"
+      />
+      }
+    </div>
   </div>
   }
 </div>
