@@ -6,7 +6,7 @@
     <app-desk-card
       [gridData]="item"
       [index]="$index"
-      (onChangeTableResult)="updateResult()"
+      (onClickChange)="eliminatePlayer($index, $event)"
       [disable]="gridData().status === 'FINALIZED'"
     />
     }

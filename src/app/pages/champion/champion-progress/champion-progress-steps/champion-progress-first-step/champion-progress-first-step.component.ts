@@ -68,14 +68,27 @@ export class ChampionProgressFirstStepComponent {
 		return dto;
 	}
 
-	protected updateResult(value?: TablesStatusInterface) {
+	protected updateResult(status?: TablesStatusInterface, data?: Array<PlayerInterface[]>) {
 		const dto: DrawChangeDTO = {
 			firstPhase: {
 				...this.gridData(),
-				status: value ? value : this.gridData().status,
+				tables: data ? data : this.gridData().tables,
+				status: status ? status : this.gridData().status,
 			},
 		};
 		this.onUpdateResult.emit(dto as StagesInterface);
+	}
+
+	protected eliminatePlayer(id: number, data: PlayerInterface) {
+		this.gridData().tables[id].map((player) => {
+			if (player.uuid === data.uuid) {
+				player.status = 'ELIMINATED';
+			} else {
+				player.status = 'CLASSIFIED';
+			}
+			return player;
+		});
+		this.updateResult(undefined, this.gridData()?.tables);
 	}
 
 	protected generateDraw() {
