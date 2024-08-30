@@ -32,6 +32,7 @@ export interface StagesInterface {
 	thirdPhase: TablesInterface;
 	fourthPhase: TablesInterface;
 	fifthPhase: TablesInterface;
+	sixthPhase: TablesInterface;
 }
 
 export type TablesInterface = {
