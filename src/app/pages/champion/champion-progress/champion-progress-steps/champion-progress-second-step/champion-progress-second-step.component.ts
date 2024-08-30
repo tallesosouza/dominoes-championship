@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import type {
-	PlayerInterface,
-	StagesInterface,
-	TablesInterface,
-	TablesStatusInterface,
-} from '@core/interfaces/champion';
+import type { PlayerInterface, StagesInterface, TablesInterface } from '@core/interfaces/champion';
 import type { ToastInterface } from '@core/interfaces/toats';
 import { ChampionStageSummaryComponent } from '@shared/components/champion-stage-summary/champion-stage-summary.component';
 import { DeskCardComponent } from '@shared/components/desk-card/desk-card.component';
@@ -62,19 +57,17 @@ export class ChampionProgressSecondStepComponent {
 		} else if (!isSecondPhaseValid(this.gridData())) {
 			dto.message = 'Elimine 01 jogador de cada mesa para poder prosseguir';
 		} else {
-			this.updateResult('FINALIZED');
 			dto.isValid = true;
 		}
 
 		return dto;
 	}
 
-	protected updateResult(status?: TablesStatusInterface, data?: Array<PlayerInterface[]>) {
+	protected updateResult(data: Array<PlayerInterface[]>) {
 		const dto: DrawChangeDTO = {
 			secondPhase: {
 				...this.gridData(),
 				tables: data ? data : this.gridData().tables,
-				status: status ? status : this.gridData().status,
 			},
 		};
 		this.onUpdateResult.emit(dto as StagesInterface);
@@ -89,7 +82,7 @@ export class ChampionProgressSecondStepComponent {
 			}
 			return player;
 		});
-		this.updateResult(undefined, this.gridData()?.tables);
+		this.updateResult(this.gridData().tables);
 	}
 
 	protected generateDraw() {

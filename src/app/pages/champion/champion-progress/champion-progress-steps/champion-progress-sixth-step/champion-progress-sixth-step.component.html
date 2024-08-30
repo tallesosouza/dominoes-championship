@@ -29,8 +29,8 @@
         label="Realizar Sorteio"
         class="p-button-success"
         (click)="generateDraw()"
+        [disabled]="drawButtonDisabled()"
       ></button>
-      <!-- [disabled]="drawButtonDisabled()" -->
 
       <button
         pButton

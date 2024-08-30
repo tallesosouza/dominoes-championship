@@ -14,6 +14,14 @@ import type { ToastInterface } from '@core/interfaces/toats';
 import { ChampionStorageService } from '@core/services/champion-storage.service';
 import { LoadingService } from '@core/services/loading.service';
 import { ConfirmeDialogComponent } from '@shared/components/dialog/confirme-dialog/confirme-dialog.component';
+import {
+	isFifthPhaseValid,
+	isFirstPhaseValid,
+	isFourthPhaseValid,
+	isSecondPhaseValid,
+	isSixthPhaseValid,
+	isThirdPhaseValid,
+} from '@shared/helpers/champion-config';
 import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -97,7 +105,10 @@ export class ChampionProgressComponent implements OnInit {
 					if (res) {
 						this.next();
 						this.gridData.update((res) => {
-							if (res) res.stage += 1;
+							if (res) {
+								res.stage += 1;
+								this.setPhaseFinalized(res.stages);
+							}
 							return res;
 						});
 						this.updateResult();
@@ -160,5 +171,33 @@ export class ChampionProgressComponent implements OnInit {
 		};
 
 		this.championStorageService.put(dto as ChampionInterface);
+	}
+
+	private setPhaseFinalized(data: StagesInterface) {
+		if (isFirstPhaseValid(data.firstPhase)) {
+			data.firstPhase.status = 'FINALIZED';
+		}
+
+		if (isSecondPhaseValid(data.secondPhase)) {
+			data.secondPhase.status = 'FINALIZED';
+		}
+
+		if (isThirdPhaseValid(data.thirdPhase)) {
+			data.thirdPhase.status = 'FINALIZED';
+		}
+
+		if (isFourthPhaseValid(data.fourthPhase)) {
+			data.fourthPhase.status = 'FINALIZED';
+		}
+
+		if (isFifthPhaseValid(data.fifthPhase)) {
+			data.fifthPhase.status = 'FINALIZED';
+		}
+
+		if (isSixthPhaseValid(data.sixthPhase)) {
+			data.sixthPhase.status = 'FINALIZED';
+		}
+
+		return data;
 	}
 }
