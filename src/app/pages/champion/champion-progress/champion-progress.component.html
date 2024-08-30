@@ -62,7 +62,16 @@
     </ng-template>
   </p-stepperPanel>
   <p-stepperPanel header="Fase">
-    <ng-template pTemplate="content"></ng-template>
+    <ng-template pTemplate="content">
+      <app-champion-progress-sixth-step
+        [gridData]="gridData()!.stages.sixthPhase"
+        [players]="gridData()!.stages.fifthPhase.tables"
+        (onPrevChange)="prev()"
+        (onDrawChange)="generateDraw($event)"
+        (onUpdateResult)="stagesUpdateResult($event)"
+        (onNextChange)="logicNext()"
+      />
+    </ng-template>
   </p-stepperPanel>
   <p-stepperPanel header="Fase | Semifinal">
     <ng-template pTemplate="content"></ng-template>

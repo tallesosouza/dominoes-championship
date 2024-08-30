@@ -1,0 +1,49 @@
+<div class="flex flex-column relative">
+  <div
+    class="flex flex-wrap gap-5 p-8 border-2 border-dashed surface-border border-round surface-ground"
+  >
+    @for (item of gridData().tables; track $index) {
+    <app-desk-card
+      [gridData]="item"
+      [index]="$index"
+      [disable]="gridData().status === 'FINALIZED'"
+      (onClickChange)="eliminatePlayer($index, $event)"
+      [isDisableChange]="false"
+    />
+    }
+  </div>
+
+  <div class="flex py-2 px-5 sticky bottom-0 bg-white shadow-3 my-5">
+    <button
+      pButton
+      label="Voltar"
+      icon="fa-solid fa-angle-left"
+      (click)="onPrevChange.emit()"
+    ></button>
+    <div class="w-full flex gap-3 justify-content-end">
+      <button
+        pButton
+        pRipple
+        icon="fa fa-rotate"
+        iconPos="right"
+        label="Realizar Sorteio"
+        class="p-button-success"
+        (click)="generateDraw()"
+      ></button>
+      <!-- [disabled]="drawButtonDisabled()" -->
+
+      <button
+        pButton
+        label="Avançar"
+        icon="fa-solid fa-angle-right"
+        iconPos="right"
+        (click)="nextChange()"
+      ></button>
+    </div>
+  </div>
+
+  <app-champion-stage-summary
+    [gridData]="gridData()"
+    titleClassified="Classificados (7° Fase)"
+  />
+</div>
