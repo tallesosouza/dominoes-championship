@@ -18,6 +18,7 @@ import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { StepperModule } from 'primeng/stepper';
+import { ChampionProgressFifthStepComponent } from './champion-progress-steps/champion-progress-fifth-step/champion-progress-fifth-step.component';
 import { ChampionProgressFirstStepComponent } from './champion-progress-steps/champion-progress-first-step/champion-progress-first-step.component';
 import { ChampionProgressFourthStepComponent } from './champion-progress-steps/champion-progress-fourth-step/champion-progress-fourth-step.component';
 import { ChampionProgressSecondStepComponent } from './champion-progress-steps/champion-progress-second-step/champion-progress-second-step.component';
@@ -32,6 +33,7 @@ import { ChampionProgressThirdStepComponent } from './champion-progress-steps/ch
 		ChampionProgressSecondStepComponent,
 		ChampionProgressThirdStepComponent,
 		ChampionProgressFourthStepComponent,
+		ChampionProgressFifthStepComponent,
 	],
 	templateUrl: './champion-progress.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,

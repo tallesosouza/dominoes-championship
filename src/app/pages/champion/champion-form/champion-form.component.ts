@@ -17,6 +17,7 @@ import { MainHeaderComponent } from '@shared/components/main-header/main-header.
 import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
 import { BaseFormDirective } from '@shared/directives/base-form.directive';
 import {
+	FIFTH_PHASE_TABLES_QUANT,
 	FIRST_PHASE_TABLES_QUANT,
 	FOURTH_PHASE_TABLES_QUANT,
 	SECOND_PHASE_TABLES_QUANT,
@@ -123,6 +124,10 @@ export class ChampionFormComponent extends BaseFormDirective {
 			fourthPhase: {
 				status: 'START',
 				tables: [...createEmptyArrays(FOURTH_PHASE_TABLES_QUANT)],
+			},
+			fifthPhase: {
+				status: 'START',
+				tables: [...createEmptyArrays(FIFTH_PHASE_TABLES_QUANT)],
 			},
 		};
 
