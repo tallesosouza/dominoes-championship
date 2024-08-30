@@ -23,7 +23,6 @@ export type TournamentPhaseDto =
 	| 'FIFTH_PHASE'
 	| 'SIXTH_PHASE'
 	| 'SEVENTH_PHASE'
-	| 'SEMI_FINAL'
 	| 'FINAL';
 
 export interface StagesInterface {
@@ -33,6 +32,7 @@ export interface StagesInterface {
 	fourthPhase: TablesInterface;
 	fifthPhase: TablesInterface;
 	sixthPhase: TablesInterface;
+	seventhPhase: TablesInterface;
 }
 
 export type TablesInterface = {

@@ -21,6 +21,7 @@ import {
 	FIRST_PHASE_TABLES_QUANT,
 	FOURTH_PHASE_TABLES_QUANT,
 	SECOND_PHASE_TABLES_QUANT,
+	SEVENTH_PHASE_TABLES_QUANT,
 	SIXTH_PHASE_TABLES_QUANT,
 	THIRD_PHASE_TABLES_QUANT,
 } from '@shared/helpers/champion-config';
@@ -133,6 +134,10 @@ export class ChampionFormComponent extends BaseFormDirective {
 			sixthPhase: {
 				status: 'START',
 				tables: [...createEmptyArrays(SIXTH_PHASE_TABLES_QUANT)],
+			},
+			seventhPhase: {
+				status: 'START',
+				tables: [...createEmptyArrays(SEVENTH_PHASE_TABLES_QUANT)],
 			},
 		};
 
