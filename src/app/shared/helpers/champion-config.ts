@@ -2,6 +2,7 @@ import type { TablesInterface } from '@core/interfaces/champion';
 
 export const FIRST_PHASE_TABLES_QUANT = 8;
 export const SECOND_PHASE_TABLES_QUANT = 6;
+export const THIRD_PHASE_TABLES_QUANT = 4;
 
 export const PLAYERS_TABLE_DEFAULT_QUANT = 4;
 
@@ -22,6 +23,17 @@ export function isSecondPhaseValid(data: TablesInterface) {
 	);
 
 	if (eliminatedQuant.length === SECOND_PHASE_TABLES_QUANT) {
+		return true;
+	}
+	return false;
+}
+
+export function isThirdPhaseValid(data: TablesInterface) {
+	const eliminatedQuant = data.tables.flatMap((res) =>
+		res.filter((res) => res.status === 'ELIMINATED'),
+	);
+
+	if (eliminatedQuant.length === THIRD_PHASE_TABLES_QUANT) {
 		return true;
 	}
 	return false;

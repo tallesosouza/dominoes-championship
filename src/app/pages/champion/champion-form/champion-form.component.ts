@@ -19,6 +19,7 @@ import { BaseFormDirective } from '@shared/directives/base-form.directive';
 import {
 	FIRST_PHASE_TABLES_QUANT,
 	SECOND_PHASE_TABLES_QUANT,
+	THIRD_PHASE_TABLES_QUANT,
 } from '@shared/helpers/champion-config';
 import { createEmptyArrays } from '@shared/utils/functions';
 import { ButtonModule } from 'primeng/button';
@@ -113,6 +114,10 @@ export class ChampionFormComponent extends BaseFormDirective {
 			secondPhase: {
 				status: 'START',
 				tables: [...createEmptyArrays(SECOND_PHASE_TABLES_QUANT)],
+			},
+			thirdPhase: {
+				status: 'START',
+				tables: [...createEmptyArrays(THIRD_PHASE_TABLES_QUANT)],
 			},
 		};
 

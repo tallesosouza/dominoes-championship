@@ -20,11 +20,17 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { StepperModule } from 'primeng/stepper';
 import { ChampionProgressFirstStepComponent } from './champion-progress-steps/champion-progress-first-step/champion-progress-first-step.component';
 import { ChampionProgressSecondStepComponent } from './champion-progress-steps/champion-progress-second-step/champion-progress-second-step.component';
+import { ChampionProgressThirdStepComponent } from './champion-progress-steps/champion-progress-third-step/champion-progress-third-step.component';
 
 @Component({
 	selector: 'app-champion-progress',
 	standalone: true,
-	imports: [StepperModule, ChampionProgressFirstStepComponent, ChampionProgressSecondStepComponent],
+	imports: [
+		StepperModule,
+		ChampionProgressFirstStepComponent,
+		ChampionProgressSecondStepComponent,
+		ChampionProgressThirdStepComponent,
+	],
 	templateUrl: './champion-progress.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })

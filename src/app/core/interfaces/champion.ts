@@ -29,6 +29,7 @@ export type TournamentPhaseDto =
 export interface StagesInterface {
 	firstPhase: TablesInterface;
 	secondPhase: TablesInterface;
+	thirdPhase: TablesInterface;
 }
 
 export type TablesInterface = {
