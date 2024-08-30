@@ -8,7 +8,7 @@ import type {
 import type { ToastInterface } from '@core/interfaces/toats';
 import { DeskCardComponent } from '@shared/components/desk-card/desk-card.component';
 import { SECOND_PHASE_TABLES_QUANT, isSecondPhaseValid } from '@shared/helpers/champion-config';
-import { createEmptyArrays } from '@shared/utils/functions';
+import { createEmptyArrays, distributePlayers } from '@shared/utils/functions';
 import { MessageService } from 'primeng/api';
 import { ButtonDirective } from 'primeng/button';
 
@@ -36,11 +36,6 @@ export class ChampionProgressSecondStepComponent {
 			return true;
 		}
 		return false;
-	});
-
-	protected playersClassified = computed(() => {
-		const dto = this.players().map((res) => res.filter((value) => value.status === 'CLASSIFIED'));
-		return dto;
 	});
 
 	protected nextChange() {
@@ -73,23 +68,36 @@ export class ChampionProgressSecondStepComponent {
 		return dto;
 	}
 
-	protected updateResult(value?: TablesStatusInterface) {
+	protected updateResult(status?: TablesStatusInterface, data?: Array<PlayerInterface[]>) {
 		const dto: DrawChangeDTO = {
 			secondPhase: {
 				...this.gridData(),
-				status: value ? value : this.gridData().status,
+				tables: data ? data : this.gridData().tables,
+				status: status ? status : this.gridData().status,
 			},
 		};
 		this.onUpdateResult.emit(dto as StagesInterface);
 	}
 
+	protected eliminatePlayer(id: number, data: PlayerInterface) {
+		this.gridData().tables[id].map((player) => {
+			if (player.uuid === data.uuid) {
+				player.status = 'ELIMINATED';
+			} else {
+				player.status = 'CLASSIFIED';
+			}
+			return player;
+		});
+		this.updateResult(undefined, this.gridData()?.tables);
+	}
+
 	protected generateDraw() {
 		if (!this.drawButtonDisabled()) {
+			const dto: DrawChangeDTO = {
+				secondPhase: this.distributePlayers(),
+			};
+			this.onDrawChange.emit(dto as StagesInterface);
 		}
-		const dto: DrawChangeDTO = {
-			secondPhase: this.distributePlayers(),
-		};
-		this.onDrawChange.emit(dto as StagesInterface);
 	}
 
 	private distributePlayers(): TablesInterface {
@@ -97,16 +105,22 @@ export class ChampionProgressSecondStepComponent {
 			tables: createEmptyArrays(SECOND_PHASE_TABLES_QUANT),
 			status: 'IN_PROGRESS',
 		};
-		this.players()
-			.flat()
-			.filter((value) => value.status === 'CLASSIFIED')
-			.sort(() => Math.random() - 0.5)
-			.forEach((player, index) =>
-				dto.tables[index % dto.tables.length].push({
-					...player,
+
+		const playersClassified = this.players().map((res) =>
+			res.filter((player) => player.status === 'CLASSIFIED'),
+		);
+
+		const distributePlayersData = distributePlayers(playersClassified, SECOND_PHASE_TABLES_QUANT);
+
+		distributePlayersData.groups.flatMap((res, index) => {
+			// biome-ignore lint/complexity/noForEach: <explanation>
+			res.forEach((value) => {
+				dto.tables[index].push({
+					...value,
 					status: 'IN_PROGRESS',
-				}),
-			);
+				});
+			});
+		});
 
 		return dto;
 	}
