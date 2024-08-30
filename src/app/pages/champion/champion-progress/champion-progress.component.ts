@@ -15,10 +15,12 @@ import { ChampionStorageService } from '@core/services/champion-storage.service'
 import { LoadingService } from '@core/services/loading.service';
 import { ConfirmeDialogComponent } from '@shared/components/dialog/confirme-dialog/confirme-dialog.component';
 import {
+	isEighthPhaseValid,
 	isFifthPhaseValid,
 	isFirstPhaseValid,
 	isFourthPhaseValid,
 	isSecondPhaseValid,
+	isSeventhPhaseValid,
 	isSixthPhaseValid,
 	isThirdPhaseValid,
 } from '@shared/helpers/champion-config';
@@ -26,6 +28,7 @@ import { DIALOG_CONFIG, DIALOG_TEMPLATE } from '@shared/helpers/dialog-config';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { StepperModule } from 'primeng/stepper';
+import { ChampionProgressEighthStepComponent } from './champion-progress-steps/champion-progress-eighth-step/champion-progress-eighth-step.component';
 import { ChampionProgressFifthStepComponent } from './champion-progress-steps/champion-progress-fifth-step/champion-progress-fifth-step.component';
 import { ChampionProgressFirstStepComponent } from './champion-progress-steps/champion-progress-first-step/champion-progress-first-step.component';
 import { ChampionProgressFourthStepComponent } from './champion-progress-steps/champion-progress-fourth-step/champion-progress-fourth-step.component';
@@ -46,6 +49,7 @@ import { ChampionProgressThirdStepComponent } from './champion-progress-steps/ch
 		ChampionProgressFifthStepComponent,
 		ChampionProgressSixthStepComponent,
 		ChampionProgressSeventhStepComponent,
+		ChampionProgressEighthStepComponent,
 	],
 	templateUrl: './champion-progress.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -108,7 +112,9 @@ export class ChampionProgressComponent implements OnInit {
 						this.next();
 						this.gridData.update((res) => {
 							if (res) {
-								res.stage += 1;
+								if (res.stage < this.STAGES_MAX) {
+									res.stage += 1;
+								}
 								this.setPhaseFinalized(res.stages);
 							}
 							return res;
@@ -200,11 +206,11 @@ export class ChampionProgressComponent implements OnInit {
 			data.sixthPhase.status = 'FINALIZED';
 		}
 
-		if (isSixthPhaseValid(data.seventhPhase)) {
+		if (isSeventhPhaseValid(data.seventhPhase)) {
 			data.seventhPhase.status = 'FINALIZED';
 		}
 
-		if (isSixthPhaseValid(data.eighthPhase)) {
+		if (isEighthPhaseValid(data.eighthPhase)) {
 			data.eighthPhase.status = 'FINALIZED';
 		}
 

@@ -1,0 +1,58 @@
+<div class="flex flex-column relative">
+  <div
+    class="flex flex-wrap gap-5 p-8 border-2 border-dashed surface-border border-round surface-ground justify-content-center"
+  >
+    <p-organizationChart
+      [value]="organizationChartData()"
+      [collapsible]="false"
+    >
+      <ng-template let-node pTemplate="default">
+        @if(node.data === 'TEMPLATE') {
+        <div class="p-3">
+          <app-winner-card [gridData]="playerWinner()" />
+        </div>
+        } @else {
+        <div
+          class="flex flex-column gap-3 justify-content-center align-items-center p-3"
+          [ngClass]="{
+            'bg-red-100': node.data.status === 'ELIMINATED',
+            'cursor-auto': gridData().status === 'FINALIZED',
+            'cursor-pointer': gridData().status !== 'FINALIZED',
+          }"
+          pTooltip="Click para eliminar"
+          tooltipPosition="bottom"
+          [tooltipDisabled]="
+            gridData().status === 'FINALIZED' ||
+            node.data.status === 'ELIMINATED'
+          "
+          (click)="eliminatePlayer(0, node.data)"
+        >
+          <app-profile-image [src]="node.data?.image?.url" size="medium" />
+          <div class="p-2 text-center">
+            <div>{{ node.data?.name }} {{ node.data?.surname }}</div>
+          </div>
+        </div>
+        }
+      </ng-template>
+    </p-organizationChart>
+  </div>
+
+  <div class="flex py-2 px-5 sticky bottom-0 bg-white shadow-3 my-5">
+    <button
+      pButton
+      label="Voltar"
+      icon="fa-solid fa-angle-left"
+      (click)="onPrevChange.emit()"
+    ></button>
+    <div class="w-full flex gap-3 justify-content-end">
+      <button
+        pButton
+        label="Finalizar"
+        icon="fa-solid fa-trophy"
+        iconPos="right"
+        severity="success"
+        (click)="nextChange()"
+      ></button>
+    </div>
+  </div>
+</div>

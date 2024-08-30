@@ -1,0 +1,18 @@
+<div class="container" [ngClass]="{ containerCustom: gridData() }">
+  <i class="fa-solid fa-trophy svg-icon"></i>
+  <div class="container__star">
+    <div class="star-eight"></div>
+  </div>
+  <div></div>
+</div>
+
+@if(gridData()) {
+<div class="flex flex-column gap-3">
+  <app-profile-image
+    [src]="gridData()?.image?.url"
+    size="xLarge"
+    style="color: #495057 !important"
+  />
+  <h5>{{ gridData()?.name }} {{ gridData()?.surname }}</h5>
+</div>
+}

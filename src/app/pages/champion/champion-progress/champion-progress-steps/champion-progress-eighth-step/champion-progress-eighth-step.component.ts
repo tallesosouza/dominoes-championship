@@ -1,5 +1,7 @@
+import { NgClass } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
+	ChangeDetectorRef,
 	Component,
 	type OnInit,
 	computed,
@@ -9,24 +11,46 @@ import {
 } from '@angular/core';
 import type { PlayerInterface, StagesInterface, TablesInterface } from '@core/interfaces/champion';
 import type { ToastInterface } from '@core/interfaces/toats';
-import { ChampionStageSummaryComponent } from '@shared/components/champion-stage-summary/champion-stage-summary.component';
 import { DeskCardComponent } from '@shared/components/desk-card/desk-card.component';
-import { SEVENTH_PHASE_TABLES_QUANT, isSeventhPhaseValid } from '@shared/helpers/champion-config';
+import { ProfileImageComponent } from '@shared/components/profile-image/profile-image.component';
+import { WinnerCardComponent } from '@shared/components/winner-card/winner-card.component';
+import { EIGHTH_PHASE_TABLES_QUANT, isEighthPhaseValid } from '@shared/helpers/champion-config';
 import { createEmptyArrays } from '@shared/utils/functions';
-import { MessageService } from 'primeng/api';
+import { MessageService, type TreeNode } from 'primeng/api';
 import { ButtonDirective } from 'primeng/button';
+import { OrganizationChartModule } from 'primeng/organizationchart';
+import { TooltipModule } from 'primeng/tooltip';
 
-type DrawChangeDTO = Pick<StagesInterface, 'seventhPhase'>;
+type DrawChangeDTO = Pick<StagesInterface, 'eighthPhase'>;
 
 @Component({
-	selector: 'app-champion-progress-seventh-step',
+	selector: 'app-champion-progress-eighth-step',
 	standalone: true,
-	imports: [DeskCardComponent, ButtonDirective, ChampionStageSummaryComponent],
-	templateUrl: './champion-progress-seventh-step.component.html',
+	imports: [
+		DeskCardComponent,
+		ButtonDirective,
+		OrganizationChartModule,
+		ProfileImageComponent,
+		WinnerCardComponent,
+		TooltipModule,
+		NgClass,
+	],
+	templateUrl: './champion-progress-eighth-step.component.html',
+	styles: `
+
+  :host ::ng-deep {
+    .p-organizationchart-node-content {
+      min-width: 15rem;
+      padding: 0 !important;
+    }
+  }
+  
+  `,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChampionProgressSeventhStepComponent implements OnInit {
+export class ChampionProgressEighthStepComponent implements OnInit {
 	private messageService = inject(MessageService);
+	private cd = inject(ChangeDetectorRef);
 
 	protected onNextChange = output();
 	protected onPrevChange = output();
@@ -34,6 +58,50 @@ export class ChampionProgressSeventhStepComponent implements OnInit {
 	protected onDrawChange = output<StagesInterface>();
 	public gridData = input.required<TablesInterface>();
 	public players = input.required<Array<PlayerInterface[]>>();
+
+	public playerWinner = computed(() => {
+		const players = this.gridData().tables.flatMap((res) =>
+			res.filter((player) => player.status === 'CLASSIFIED'),
+		);
+
+		return players.find((res) => res.status === 'CLASSIFIED');
+	});
+
+	protected organizationChartData = computed<TreeNode[]>(() => {
+		const players = this.gridData().tables.flat();
+
+		if (!players || !players[0] || !players[1]) {
+			return [];
+		}
+
+		return [
+			{
+				label: '',
+				expanded: true,
+				data: 'TEMPLATE',
+				children: [
+					{
+						data: {
+							uuid: players[0].uuid,
+							name: players[0].name,
+							surname: players[0].surname ?? '',
+							image: players[0].image,
+							status: players[0].status,
+						},
+					},
+					{
+						data: {
+							uuid: players[1].uuid,
+							name: players[1].name,
+							surname: players[1].surname ?? '',
+							image: players[1].image,
+							status: players[1].status,
+						},
+					},
+				],
+			},
+		];
+	});
 
 	protected drawButtonDisabled = computed(() => {
 		if (this.gridData()?.status !== 'START') {
@@ -65,10 +133,11 @@ export class ChampionProgressSeventhStepComponent implements OnInit {
 			isValid: false,
 			message: '',
 		};
+
 		if (this.gridData()?.status === 'START') {
 			dto.message = 'Efetue o sorteio para poder prosseguir';
-		} else if (!isSeventhPhaseValid(this.gridData())) {
-			dto.message = 'Elimine 02 jogadores de cada mesa para poder prosseguir';
+		} else if (!isEighthPhaseValid(this.gridData())) {
+			dto.message = 'Elimine 01 jogador para poder prosseguir';
 		} else {
 			dto.isValid = true;
 		}
@@ -78,7 +147,7 @@ export class ChampionProgressSeventhStepComponent implements OnInit {
 
 	protected updateResult(data: Array<PlayerInterface[]>) {
 		const dto: DrawChangeDTO = {
-			seventhPhase: {
+			eighthPhase: {
 				...this.gridData(),
 				tables: data ? data : this.gridData().tables,
 			},
@@ -87,56 +156,30 @@ export class ChampionProgressSeventhStepComponent implements OnInit {
 	}
 
 	protected eliminatePlayer(id: number, data: PlayerInterface) {
-		const selectMax = 2;
-		let quant = this.gridData().tables[id].filter((res) => res.status === 'ELIMINATED').length;
-		const index = this.gridData().tables[id].findIndex((res) => res.uuid === data.uuid);
-		const status = this.gridData().tables[id][index].status;
-
-		if (quant < selectMax || status === 'ELIMINATED') {
-			switch (status) {
-				case 'IN_PROGRESS':
-				case 'CLASSIFIED':
-					this.gridData().tables[id][index].status = 'ELIMINATED';
-					break;
-				case 'ELIMINATED':
-					this.gridData().tables[id][index].status = 'IN_PROGRESS';
-					break;
-			}
-		}
-
-		quant = this.gridData().tables[id].filter((res) => res.status === 'ELIMINATED').length;
-
-		if (quant === selectMax) {
+		if (this.gridData().status !== 'FINALIZED') {
 			this.gridData().tables[id].map((player) => {
-				if (player.status === 'IN_PROGRESS') {
+				if (player.uuid === data.uuid) {
+					player.status = 'ELIMINATED';
+				} else {
 					player.status = 'CLASSIFIED';
 				}
 				return player;
 			});
-		} else {
-			this.gridData().tables[id].map((player) => {
-				if (player.status === 'CLASSIFIED') {
-					player.status = 'IN_PROGRESS';
-				}
-				return player;
-			});
+			this.updateResult(this.gridData().tables);
 		}
-
-		this.updateResult(this.gridData().tables);
 	}
 
 	protected generateDraw() {
-		if (!this.drawButtonDisabled()) {
-		}
 		const dto: DrawChangeDTO = {
-			seventhPhase: this.distributePlayers(),
+			eighthPhase: this.distributePlayers(),
 		};
 		this.onDrawChange.emit(dto as StagesInterface);
+		this.cd.detectChanges();
 	}
 
 	private distributePlayers(): TablesInterface {
 		const dto: TablesInterface = {
-			tables: createEmptyArrays(SEVENTH_PHASE_TABLES_QUANT),
+			tables: createEmptyArrays(EIGHTH_PHASE_TABLES_QUANT),
 			status: 'IN_PROGRESS',
 		};
 
