@@ -79,7 +79,7 @@
         [gridData]="gridData()!.stages.seventhPhase"
         [players]="gridData()!.stages.sixthPhase.tables"
         (onPrevChange)="prev()"
-        (onDrawChange)="generateDraw($event)"
+        (onDrawChange)="generateDraw($event, true)"
         (onUpdateResult)="stagesUpdateResult($event)"
         (onNextChange)="logicNext()"
       />
@@ -91,7 +91,7 @@
         [gridData]="gridData()!.stages.eighthPhase"
         [players]="gridData()!.stages.seventhPhase.tables"
         (onPrevChange)="prev()"
-        (onDrawChange)="generateDraw($event)"
+        (onDrawChange)="generateDraw($event, true)"
         (onUpdateResult)="stagesUpdateResult($event)"
         (onNextChange)="logicNext()"
       />

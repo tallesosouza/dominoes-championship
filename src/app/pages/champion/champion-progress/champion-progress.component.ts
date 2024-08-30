@@ -157,8 +157,10 @@ export class ChampionProgressComponent implements OnInit {
 		this.championStorageService.put(this.gridData() as ChampionInterface);
 	}
 
-	protected generateDraw(data: StagesInterface) {
-		this.loadingService.setToggle();
+	protected generateDraw(data: StagesInterface, loadingDisable?: boolean) {
+		if (!loadingDisable) {
+			this.loadingService.setToggle();
+		}
 		const dto = {
 			...this.gridData(),
 			stages: {

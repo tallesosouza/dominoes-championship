@@ -20,6 +20,6 @@ export class LoadingService {
 
 		setTimeout(() => {
 			this.set(false);
-		}, 1500);
+		}, 1000);
 	}
 }
