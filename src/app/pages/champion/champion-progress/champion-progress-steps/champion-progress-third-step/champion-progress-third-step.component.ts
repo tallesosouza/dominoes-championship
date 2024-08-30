@@ -114,8 +114,6 @@ export class ChampionProgressThirdStepComponent {
 
 		const distributePlayersData = distributePlayers(playersClassified, THIRD_PHASE_TABLES_QUANT);
 
-		dto.skipStepClassified;
-
 		// biome-ignore lint/complexity/noForEach: <explanation>
 		distributePlayersData.leftovers.forEach((res) => {
 			dto.skipStepClassified?.push(res);
