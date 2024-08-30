@@ -7,6 +7,7 @@ export const FOURTH_PHASE_TABLES_QUANT = 3;
 export const FIFTH_PHASE_TABLES_QUANT = 3;
 export const SIXTH_PHASE_TABLES_QUANT = 2;
 export const SEVENTH_PHASE_TABLES_QUANT = 1;
+export const EIGHTH_PHASE_TABLES_QUANT = 1;
 
 export const PLAYERS_TABLE_DEFAULT_QUANT = 4;
 
@@ -82,6 +83,17 @@ export function isSeventhPhaseValid(data: TablesInterface) {
 	);
 
 	if (eliminatedQuant.length === SEVENTH_PHASE_TABLES_QUANT * 2) {
+		return true;
+	}
+	return false;
+}
+
+export function isEighthPhaseValid(data: TablesInterface) {
+	const eliminatedQuant = data.tables.flatMap((res) =>
+		res.filter((res) => res.status === 'ELIMINATED'),
+	);
+
+	if (eliminatedQuant.length === EIGHTH_PHASE_TABLES_QUANT) {
 		return true;
 	}
 	return false;

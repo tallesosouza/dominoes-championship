@@ -204,6 +204,10 @@ export class ChampionProgressComponent implements OnInit {
 			data.seventhPhase.status = 'FINALIZED';
 		}
 
+		if (isSixthPhaseValid(data.eighthPhase)) {
+			data.eighthPhase.status = 'FINALIZED';
+		}
+
 		return data;
 	}
 }
