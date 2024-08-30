@@ -11,6 +11,7 @@ export interface ChampionInterface {
 }
 
 export type PlayerInterface = UserInterface & {
+	uuid: string;
 	status: 'ELIMINATED' | 'IN_PROGRESS' | 'CLASSIFIED';
 };
 
@@ -33,6 +34,7 @@ export interface StagesInterface {
 export type TablesInterface = {
 	tables: Array<PlayerInterface[]>;
 	status: TablesStatusInterface;
+	skipStepClassified?: PlayerInterface[];
 };
 
 export type TablesStatusInterface = 'START' | 'IN_PROGRESS' | 'FINALIZED';
