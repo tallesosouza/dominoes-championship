@@ -69,7 +69,7 @@ export function isSixthPhaseValid(data: TablesInterface) {
 		res.filter((res) => res.status === 'ELIMINATED'),
 	);
 
-	if (eliminatedQuant.length === FIFTH_PHASE_TABLES_QUANT * 2) {
+	if (eliminatedQuant.length === SIXTH_PHASE_TABLES_QUANT * 2) {
 		return true;
 	}
 	return false;
