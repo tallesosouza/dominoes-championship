@@ -18,6 +18,7 @@ export class DeskCardComponent {
 	public gridData = input<PlayerInterface[]>([]);
 	public index = input<number>(0);
 	public disable = input(false);
+	public isDisableChange = input(true);
 
 	public number = computed(() => {
 		const num = this.index() + 1;
@@ -26,6 +27,13 @@ export class DeskCardComponent {
 			return `0${num}`;
 		}
 		return num;
+	});
+
+	protected tooltipLabel = computed(() => {
+		if (this.isDisableChange()) {
+			return 'Click para desfazer a edição aplicada';
+		}
+		return 'Click para eliminar';
 	});
 
 	protected onClick(data: PlayerInterface) {

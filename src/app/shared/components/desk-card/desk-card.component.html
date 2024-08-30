@@ -6,14 +6,23 @@
     @for (item of gridData(); track $index) {
     <button
       pButton
-      pTooltip="Click para eliminar"
+      [pTooltip]="
+        item.status === 'ELIMINATED'
+          ? 'Click para desfazer a edição aplicada'
+          : 'Click para eliminar'
+      "
       tooltipPosition="right"
       [tooltipDisabled]="disable()"
       [text]="true"
-      [disabled]="item.status === 'ELIMINATED' ? true : false"
+      [disabled]="
+        item.status === 'ELIMINATED' && isDisableChange() ? true : false
+      "
       severity="secondary"
       (click)="onClick(item)"
-      [ngClass]="{ finalized: disable() }"
+      [ngClass]="{
+        finalized: disable(),
+        disabled: item.status === 'ELIMINATED'
+      }"
     >
       <app-profile-image size="medium" [src]="item?.image?.url" />
       <span class="ml-3">{{ item.name }} {{ item.surname }}</span>

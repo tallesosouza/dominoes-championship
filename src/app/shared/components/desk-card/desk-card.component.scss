@@ -16,7 +16,9 @@ button {
     box-shadow: none;
   }
 
-  &:disabled {
+  &:disabled,
+  &.disabled {
+    opacity: 0.6;
     background-color: var(--red-500);
     span {
       color: white;
