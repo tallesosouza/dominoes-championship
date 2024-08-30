@@ -6,6 +6,7 @@ import type {
 	TablesStatusInterface,
 } from '@core/interfaces/champion';
 import type { ToastInterface } from '@core/interfaces/toats';
+import { ChampionStageSummaryComponent } from '@shared/components/champion-stage-summary/champion-stage-summary.component';
 import { DeskCardComponent } from '@shared/components/desk-card/desk-card.component';
 import { FIRST_PHASE_TABLES_QUANT, isFirstPhaseValid } from '@shared/helpers/champion-config';
 import { createEmptyArrays } from '@shared/utils/functions';
@@ -18,7 +19,7 @@ type DrawChangeDTO = Pick<StagesInterface, 'firstPhase'>;
 @Component({
 	selector: 'app-champion-progress-first-step',
 	standalone: true,
-	imports: [ButtonDirective, RippleModule, DeskCardComponent],
+	imports: [ButtonDirective, RippleModule, DeskCardComponent, ChampionStageSummaryComponent],
 	templateUrl: './champion-progress-first-step.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })

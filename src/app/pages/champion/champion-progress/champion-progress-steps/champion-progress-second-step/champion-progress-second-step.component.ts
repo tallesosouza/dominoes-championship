@@ -6,6 +6,7 @@ import type {
 	TablesStatusInterface,
 } from '@core/interfaces/champion';
 import type { ToastInterface } from '@core/interfaces/toats';
+import { ChampionStageSummaryComponent } from '@shared/components/champion-stage-summary/champion-stage-summary.component';
 import { DeskCardComponent } from '@shared/components/desk-card/desk-card.component';
 import { SECOND_PHASE_TABLES_QUANT, isSecondPhaseValid } from '@shared/helpers/champion-config';
 import { createEmptyArrays, distributePlayers } from '@shared/utils/functions';
@@ -17,7 +18,7 @@ type DrawChangeDTO = Pick<StagesInterface, 'secondPhase'>;
 @Component({
 	selector: 'app-champion-progress-second-step',
 	standalone: true,
-	imports: [DeskCardComponent, ButtonDirective],
+	imports: [DeskCardComponent, ButtonDirective, ChampionStageSummaryComponent],
 	templateUrl: './champion-progress-second-step.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })

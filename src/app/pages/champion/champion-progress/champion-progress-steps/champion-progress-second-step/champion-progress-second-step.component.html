@@ -12,7 +12,7 @@
     }
   </div>
 
-  <div class="flex py-2 px-5 sticky bottom-0 bg-white shadow-3 mt-5">
+  <div class="flex py-2 px-5 sticky bottom-0 bg-white shadow-3 my-5">
     <button
       pButton
       label="Voltar"
@@ -40,4 +40,9 @@
       ></button>
     </div>
   </div>
+
+  <app-champion-stage-summary
+    [gridData]="gridData()"
+    titleClassified="Classificados (3° Fase)"
+  />
 </div>
