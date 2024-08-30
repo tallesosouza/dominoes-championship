@@ -30,6 +30,7 @@ import { ChampionProgressFifthStepComponent } from './champion-progress-steps/ch
 import { ChampionProgressFirstStepComponent } from './champion-progress-steps/champion-progress-first-step/champion-progress-first-step.component';
 import { ChampionProgressFourthStepComponent } from './champion-progress-steps/champion-progress-fourth-step/champion-progress-fourth-step.component';
 import { ChampionProgressSecondStepComponent } from './champion-progress-steps/champion-progress-second-step/champion-progress-second-step.component';
+import { ChampionProgressSeventhStepComponent } from './champion-progress-steps/champion-progress-seventh-step/champion-progress-seventh-step.component';
 import { ChampionProgressSixthStepComponent } from './champion-progress-steps/champion-progress-sixth-step/champion-progress-sixth-step.component';
 import { ChampionProgressThirdStepComponent } from './champion-progress-steps/champion-progress-third-step/champion-progress-third-step.component';
 
@@ -44,6 +45,7 @@ import { ChampionProgressThirdStepComponent } from './champion-progress-steps/ch
 		ChampionProgressFourthStepComponent,
 		ChampionProgressFifthStepComponent,
 		ChampionProgressSixthStepComponent,
+		ChampionProgressSeventhStepComponent,
 	],
 	templateUrl: './champion-progress.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
